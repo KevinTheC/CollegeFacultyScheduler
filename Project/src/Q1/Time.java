@@ -1,18 +1,23 @@
 package Q1;
 
 public enum Time {
-	EarlyMorning("7AM-8AM"),
-	Morning("8AM-12PM"),
-	Afternoon("12PM-3PM"),
-	LateAfternoon("3PM-4PM"),
-	LaterAfternoon("4PM-6PM"),
-	Evening("6PM-9PM"),
-	Open("8AM-3PM");
+	EarlyMorning("7AM-8AM",1),
+	Morning("8AM-12PM",4),
+	Afternoon("12PM-3PM",3),
+	LateAfternoon("3PM-4PM",1),
+	LaterAfternoon("4PM-6PM",2),
+	Evening("6PM-9PM",3),
+	Open("8AM-3PM",7);
 	private final String range;
-	private Time(String str) {
+	private final int length;
+	private Time(String str,int length) {
 		this.range = str;
+		this.length = length;
 	}
 	public String toString() {
 		return range;
+	}
+	public int getLength() {
+		return length;
 	}
 }

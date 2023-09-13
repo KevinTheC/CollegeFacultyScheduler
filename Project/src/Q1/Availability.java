@@ -31,12 +31,12 @@ public class Availability {
 		if (!(o instanceof Availability))
 			return false;
 		Availability avl = (Availability)o;
-		for (Day d : map.keySet()) {
+		for (Day d : map.keySet())
 			if (!avl.map.get(d).equals(map.get(d)))
 				return false;
-		}
 		return true;
 	}
+	
 	public String toString() {
 		return map.toString();
 	}
