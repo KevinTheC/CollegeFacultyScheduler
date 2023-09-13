@@ -1,6 +1,11 @@
 package Q1;
 import java.math.*;
 import java.util.Scanner;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,10 +16,9 @@ import java.util.Random;
 import java.util.*;
 import java.lang.*;
 @SuppressWarnings("unused")
-public class Main {
+public class Main extends Application{
 	public static void main(String[] args) throws IOException {
-		FileReader fr = new FileReader("src/Q1/Instructors.csv");
-		BufferedReader in = new BufferedReader(fr);
+		BufferedReader in = new BufferedReader(new FileReader("src/Q1/Instructors.csv"));
 		while (in.readLine().charAt(0)!='—') {}
 		ArrayList<Instructor> ar = new ArrayList<>();
 		while (in.ready()) {
@@ -27,11 +31,15 @@ public class Main {
 			}
 			ar.add(new Instructor(strings,','));
 		}
-		for (Instructor i : ar) {
-			System.out.println(i);
-			System.out.println();
-		}
 		in.close();
-		fr.close();
+		Application.launch(args);
+	}
+	@Override
+	public void start(Stage stage) throws Exception {
+		
+		Parent root = FXMLLoader.load(getClass().getResource("src/Q1/Main.fxml"));
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 }

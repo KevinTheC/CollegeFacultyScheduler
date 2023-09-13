@@ -6,7 +6,7 @@ public enum Time {
 	Afternoon("12PM-3PM"),
 	LateAfternoon("3PM-4PM"),
 	LaterAfternoon("4PM-6PM"),
-	Evening("6PM-9PM"),
+	Evening("6PM-10PM"),
 	Open("8AM-3PM");
 	private final String range;
 	private Time(String str) {
