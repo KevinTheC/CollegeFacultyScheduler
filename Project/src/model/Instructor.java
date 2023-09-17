@@ -1,4 +1,4 @@
-package Q1;
+package model;
 
 import java.util.ArrayList;
 import java.util.function.Function;
@@ -97,6 +97,7 @@ public class Instructor {
 		}
 	}
 	private void parseAvailability(String str,Time t) {
+		boolean tu = true;
 		for (int i=0;i<str.length();i++) {
 			if (str.charAt(i)==' '||str.charAt(i)=='*')
 				continue;
@@ -104,10 +105,10 @@ public class Instructor {
 				avl.put(t, Day.parse(str.substring(i,i+3)));
 				i+=2;
 			} else if (str.charAt(i)=='T'){
-				if (i>2) {
+				if (tu) {
 					avl.put(t, Day.T);
-				}
-				else
+					tu = !tu;
+				} else
 					avl.put(t, Day.R);
 			} else {
 				avl.put(t, Day.parse(str.charAt(i)+""));
@@ -115,8 +116,8 @@ public class Instructor {
 		}
 	}
 	public String toString() {
-		return "Information: [ID: "+ID+", Cell: "+cell+", Home Phone: "+homePhone+", Name: "
-				+name+", Address: "+address+"]"+
+		return "Information: [ID: "+ID+", Cell: "+cell+", Home Phone: "+homePhone+", Name: \""
+				+name+"\", Address: \""+address+"\"]"+
 				"\nSchool Info: [Home Campus: "+home+", Hire Date: "+hireDate+", Ranking: "+ranking+", Course Count: "+courseCount+"]"+
 				"\nPreferred Campus: "+preferred+
 				"\nCourses: "+courses+

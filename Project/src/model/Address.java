@@ -1,4 +1,4 @@
-package Q1;
+package model;
 
 public class Address {
 	private int streetNumber;

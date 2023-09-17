@@ -1,4 +1,4 @@
-package Q1;
+package model;
 
 public enum Day {
 	M,
