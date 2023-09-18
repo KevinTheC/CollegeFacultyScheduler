@@ -85,10 +85,10 @@ public class Controller {
 						Integer.parseInt(e.getText());
 						return (i.getID()+"").contains(searchTextField.getText());
 					} catch (NumberFormatException exception) {
-						return i.getName().contains(searchTextField.getText());
+						return i.getName().toLowerCase()
+								.contains(searchTextField.getText().toLowerCase());
 					}
 				}).toList());
-		int i =0 ;
 	}
 	//helper methods (string and node parsing)
 	public String[] instructorInfo(Instructor in) {

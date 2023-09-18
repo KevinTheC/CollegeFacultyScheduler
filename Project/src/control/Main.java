@@ -13,6 +13,7 @@ import model.Instructor;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -26,7 +27,18 @@ public class Main extends Application{
 		Application.launch(args);
 	}
 	public void start(Stage stage) throws Exception {
-		BufferedReader in = new BufferedReader(new FileReader("src/Q1/Instructors.csv"));
+		Collection<Instructor> instructors = importInstructors(new File("src/Q1/Instructors.csv"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+		Parent root = loader.load();
+		Scene scene = new Scene(root,700,500);
+		stage.setScene(scene);
+		Controller c = loader.getController();
+		c.setInstance(root,stage,scene,instructors);
+		stage.setTitle("Program");
+		stage.show();
+	}
+	public static Collection<Instructor> importInstructors(File f1) throws IOException{
+		BufferedReader in = new BufferedReader(new FileReader(f1));
 		while (in.readLine().charAt(0)!='—') {}
 		ArrayList<Instructor> ar = new ArrayList<>();
 		while (in.ready()) {
@@ -40,13 +52,6 @@ public class Main extends Application{
 			ar.add(new Instructor(strings,','));
 		}
 		in.close();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
-		Parent root = loader.load();
-		Scene scene = new Scene(root,700,500);
-		stage.setScene(scene);
-		Controller c = loader.getController();
-		c.setInstance(root,stage,scene,ar);
-		stage.setTitle("Program");
-		stage.show();
+		return ar;
 	}
 }
