@@ -107,12 +107,10 @@ public class Controller {
 			str+="\n"+arr[i];
 		return str;
 	}
-	@SuppressWarnings("unchecked")
-	public <K> Optional<K> getComponent(String id) throws ClassCastException{
-		//TODO this should check depth-wise for nodes in the future instead of just the root's children
-		List<Node> list = root.getChildrenUnmodifiable()
-			.filtered((Node n)->{return n.getId().equals(id);});
-		if (list.size()!=1) return Optional.empty();
-			return Optional.of((K)list.get(0));
+	public Optional<Node> getComponent(String id){
+		Node n = scene.lookup("#"+id);
+		if (n==null)
+			return Optional.empty();
+		return Optional.of(n);
 	}
 }

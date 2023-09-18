@@ -42,7 +42,7 @@ public class Main extends Application{
 		in.close();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
 		Parent root = loader.load();
-		Scene scene = new Scene(root,700,700);
+		Scene scene = new Scene(root,700,500);
 		stage.setScene(scene);
 		Controller c = loader.getController();
 		c.setInstance(root,stage,scene,ar);
