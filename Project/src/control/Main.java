@@ -28,10 +28,12 @@ public class Main extends Application{
 	}
 	public void start(Stage stage) throws Exception {
 		Collection<Instructor> instructors = importInstructors(new File("src/Q1/Instructors.csv"));
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+		File f1 = new File("bin/view/Main.fxml");
+		FXMLLoader loader = new FXMLLoader(f1.toURI().toURL());
 		Parent root = loader.load();
-		Scene scene = new Scene(root,700,500);
+		Scene scene = new Scene(root,820,500);
 		stage.setScene(scene);
+		scene.getStylesheets().add("view/application.css");
 		Controller c = loader.getController();
 		c.setInstance(root,stage,scene,instructors);
 		stage.setTitle("Program");

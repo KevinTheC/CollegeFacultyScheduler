@@ -30,8 +30,7 @@ public class Controller {
 	private ListView<Instructor> results;
 	@FXML
 	private TextField searchTextField;
-	@FXML
-	private Pane pane;
+	
 	private AVLView avl;
 	private ArrayList<Instructor> original = new ArrayList<>();
 	private ArrayList<Instructor> observed = new ArrayList<>();
@@ -47,8 +46,8 @@ public class Controller {
 		this.scene = scene;
 		avl = new AVLView();
 		results = (ListView<Instructor>) getComponent("results").get();
-		pane = (Pane) getComponent("pane").get();
 		infoOutputArea = (TextArea) getComponent("infoOutputArea").get();
+		infoOutputArea.getStyleClass().add("transparentArea");
 		searchTextField = (TextField) getComponent("searchTextField").get();
 		results.setCellFactory(new Callback<ListView<Instructor>,ListCell<Instructor>>(){
 			@Override
@@ -72,7 +71,8 @@ public class Controller {
 				return cell;
 			}});
 		results.setItems(list);
-		pane.getChildren().add(avl);
+		//pane.getChildren().add(avl);
+		//pane.getStyleClass().add("rect");
 		original.addAll(ints);
 	}
 	//handlers
