@@ -5,6 +5,7 @@ import java.util.Scanner;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -29,7 +30,7 @@ public class Main extends Application{
 		File f1 = new File("bin/view/Main.fxml");
 		FXMLLoader loader = new FXMLLoader(f1.toURI().toURL());
 		Parent root = loader.load();
-		Scene scene = new Scene(root,820,500);
+		Scene scene = new Scene(root,820,670);
 		stage.setScene(scene);
 		scene.getStylesheets().add("view/application.css");
 		Controller c = loader.getController();
@@ -55,3 +56,4 @@ public class Main extends Application{
 		return ar;
 	}
 }
+

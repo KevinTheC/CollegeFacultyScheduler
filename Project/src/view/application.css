@@ -14,20 +14,29 @@
 	-fx-background-color: transparent;
 	-fx-border-color: transparent;
 }
-.searchBar{
-	-fx-border-radius: 10px;
+.containerLayer1{
+	-fx-border-radius: 15px;
 	-fx-border-width: 4px;
 	-fx-border-color: #c4b278;
 	-fx-border-insets: 10px;
-	-fx-background-color: #cfbb7e;
+	-fx-background-color: #c4b278;
 	-fx-background-radius: 15px;
 	-fx-background-insets: 10px;
+}
+.containerLayer2{
+	-fx-background-radius: 15px;
+	-fx-background-color: #cfbb7e;
+}
+.containerLayer3{
+	-fx-background-color: white;
+	-fx-background-radius: 5px;
 }
 .beigeTextArea{
 	-fx-background-color: #f2da94;
 }
 .list{
 	-fx-background-color: transparent;
+	-fx-font-color: blue;
 }
 .list .cell{
 	-fx-background-radius: 2px;
@@ -37,6 +46,4 @@
 .list .cell:empty{
 	-fx-background-color: transparent;
 }
-.h1{
-	-fx-font-family: Comic Sans MS;
-}
+

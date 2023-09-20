@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,6 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -25,8 +27,6 @@ import model.Instructor;
 import view.AVLView;
 
 public class Controller {
-	@FXML
-	private TextArea infoOutputArea;
 	@FXML
 	private ListView<Instructor> results;
 	@FXML
@@ -46,10 +46,8 @@ public class Controller {
 		this.stage = stage;
 		this.scene = scene;
 		avl = new AVLView();
-		results = (ListView<Instructor>) getComponent("#results").get();
-		infoOutputArea = (TextArea) getComponent("#infoOutputArea").get();
-		infoOutputArea.getStyleClass().add("#transparentArea");
-		searchTextField = (TextField) getComponent("#searchTextField").get();
+		results = (ListView<Instructor>) getComponent("results").get();
+		searchTextField = (TextField) getComponent("searchTextField").get();
 		results.setCellFactory(new Callback<ListView<Instructor>,ListCell<Instructor>>(){
 			@Override
 			public ListCell<Instructor> call(ListView<Instructor> arg) {
@@ -66,13 +64,12 @@ public class Controller {
 				cell.setOnMouseClicked(e->{
 					if (cell.getItem()!=null) {
 						avl.refresh(cell.getItem().getAvailability());
-						String[] arr = instructorInfo(cell.getItem());
-						infoOutputArea.setText(combine(arr));
+						instructorInfo(cell.getItem());
 					}});
 				return cell;
 			}});
 		results.setItems(list);
-		((HBox)getComponent("#vbox1").get()).getChildren().add(1,avl);
+		((HBox)getComponent("vbox1").get()).getChildren().add(1,avl);
 		original.addAll(ints);
 	}
 	//handlers
@@ -91,15 +88,26 @@ public class Controller {
 				}).toList());
 	}
 	//helper methods (string and node parsing)
-	public String[] instructorInfo(Instructor in) {
+	public void instructorInfo(Instructor in) {
 		String[] arr = in.toString()
 				.substring(0,in.toString().indexOf("Availability"))
 				.split("[\\[\\]]");
-		arr = new String[]{arr[1],arr[3],arr[5],arr[7]};
-		for (int i=0;i<arr.length-1;i++) {
-			arr[i]=arr[i].replaceAll(", (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)","\n");
+		int[] idxs = {1,3,5,7};
+		ArrayList<String[]> list = new ArrayList<>();
+		for (int i : idxs)
+			list.add(arr[i].split(", (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"));
+		for (String str : list.get(0)) {
+			arr = str.split(": ");
+			arr[0] = arr[0].replace(" ", "_");
+			((BorderPane)getComponent(arr[0]).get()).setCenter(new Text(arr[1].replace("\"", "")));
 		}
-		return arr;
+		for (String str : list.get(1)) {
+			arr = str.split(": ");
+			arr[0] = arr[0].replace(" ", "_");
+			((BorderPane)getComponent(arr[0]).get()).setCenter(new Text(arr[1].replace("\"", "")));
+		}
+		((BorderPane)getComponent("Online?").get()).setCenter(new Text(list.get(2)[0]));
+		((BorderPane)getComponent("CourseList").get()).setCenter(new Text(list.get(3)[0]));
 	}
 	public String combine(String[] arr) {
 		String str = arr[0];
@@ -108,7 +116,7 @@ public class Controller {
 		return str;
 	}
 	public Optional<Node> getComponent(String id){
-		Node n = scene.lookup(id);
+		Node n = scene.lookup("#"+id);
 		if (n==null)
 			return Optional.empty();
 		return Optional.of(n);

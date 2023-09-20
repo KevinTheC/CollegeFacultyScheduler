@@ -15,7 +15,7 @@ public class AVLView extends VBox {
 	private final static int hStart = 1;
 	private Rectangle[][] rects;
 	private final static int width = 20;
-	private final static int height = 20;
+	private final static int height = 35;
 	public AVLView() {
 		rects = new Rectangle[7][6];
 		this.setId("#AvailabilityViewer");
