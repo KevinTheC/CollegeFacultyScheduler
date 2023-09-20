@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
+import javafx.scene.layout.VBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -45,10 +46,10 @@ public class Controller {
 		this.stage = stage;
 		this.scene = scene;
 		avl = new AVLView();
-		results = (ListView<Instructor>) getComponent("results").get();
-		infoOutputArea = (TextArea) getComponent("infoOutputArea").get();
-		infoOutputArea.getStyleClass().add("transparentArea");
-		searchTextField = (TextField) getComponent("searchTextField").get();
+		results = (ListView<Instructor>) getComponent("#results").get();
+		infoOutputArea = (TextArea) getComponent("#infoOutputArea").get();
+		infoOutputArea.getStyleClass().add("#transparentArea");
+		searchTextField = (TextField) getComponent("#searchTextField").get();
 		results.setCellFactory(new Callback<ListView<Instructor>,ListCell<Instructor>>(){
 			@Override
 			public ListCell<Instructor> call(ListView<Instructor> arg) {
@@ -71,8 +72,7 @@ public class Controller {
 				return cell;
 			}});
 		results.setItems(list);
-		//pane.getChildren().add(avl);
-		//pane.getStyleClass().add("rect");
+		((HBox)getComponent("#vbox1").get()).getChildren().add(1,avl);
 		original.addAll(ints);
 	}
 	//handlers
@@ -108,7 +108,7 @@ public class Controller {
 		return str;
 	}
 	public Optional<Node> getComponent(String id){
-		Node n = scene.lookup("#"+id);
+		Node n = scene.lookup(id);
 		if (n==null)
 			return Optional.empty();
 		return Optional.of(n);
