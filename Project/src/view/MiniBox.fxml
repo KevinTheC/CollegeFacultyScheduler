@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="253.0" prefWidth="368.0" styleClass="containerLayer2" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="26.13671875" />
+      <BorderPane prefHeight="233.0" prefWidth="360.0" styleClass="containerLayer3" stylesheets="@application.css" />
+   </children>
+   <padding>
+      <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />
+   </padding>
+</VBox>
