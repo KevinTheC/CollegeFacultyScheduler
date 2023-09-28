@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="rect" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="rect" stylesheets="@application.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.Controller">
    <children>
       <VBox prefHeight="644.0" prefWidth="820.0" styleClass="h1" stylesheets="@application.css">
          <children>
@@ -28,7 +28,7 @@
                               <String fx:value="containerLayer2" />
                            </styleClass>
                         </Text>
-                        <TextField id="searchTextField" alignment="CENTER" maxWidth="272.0" onKeyReleased="#keyRelease" prefHeight="25.0" prefWidth="272.0" stylesheets="@application.css" VBox.vgrow="NEVER">
+                        <TextField id="searchTextField" fx:id="searchTextField" alignment="CENTER" maxWidth="272.0" onKeyReleased="#keyRelease" prefHeight="25.0" prefWidth="272.0" stylesheets="@application.css" VBox.vgrow="NEVER">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
@@ -44,9 +44,9 @@
                   <Insets />
                </opaqueInsets>
             </VBox>
-            <HBox id="vbox1" prefHeight="548.0" prefWidth="800.0">
+            <HBox id="hbox1" fx:id="hbox1" prefHeight="548.0" prefWidth="800.0">
                <children>
-                  <ListView id="results" prefHeight="472.0" prefWidth="213.0" styleClass="list" stylesheets="@application.css" />
+                  <ListView id="results" fx:id="results" prefHeight="472.0" prefWidth="213.0" styleClass="list" stylesheets="@application.css" />
                   <VBox alignment="CENTER" prefHeight="574.0" prefWidth="338.0" spacing="5.0" styleClass="containerLayer1" stylesheets="@application.css">
                      <children>
                         <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="256.0" styleClass="containerLayer2" stylesheets="@application.css">
@@ -134,7 +134,7 @@
                               <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="100.0" styleClass="containerLayer2" stylesheets="@application.css">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Online?" wrappingWidth="41.13671875" />
-                                    <BorderPane id="Online?" prefHeight="233.0" prefWidth="159.0" styleClass="containerLayer3" stylesheets="@application.css" />
+                                    <BorderPane id="Online?" fx:id="onlineTest" prefHeight="233.0" prefWidth="159.0" styleClass="containerLayer3" stylesheets="@application.css" />
                                  </children>
                                  <padding>
                                     <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />
@@ -154,7 +154,7 @@
                         <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="310.0" styleClass="containerLayer2" stylesheets="@application.css">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Courses" wrappingWidth="43.13671875" />
-                              <BorderPane id="CourseList" prefHeight="233.0" prefWidth="159.0" styleClass="containerLayer3" stylesheets="@application.css" />
+                              <BorderPane id="CourseList" fx:id="CourseList" prefHeight="233.0" prefWidth="159.0" styleClass="containerLayer3" stylesheets="@application.css" />
                            </children>
                            <padding>
                               <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />

@@ -2,6 +2,7 @@ package control;
 import java.math.*;
 import java.util.Scanner;
 
+import Q1.InstructorParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -27,33 +28,36 @@ public class Main extends Application{
 	}
 	public void start(Stage stage) throws Exception {
 		Collection<Instructor> instructors = importInstructors(new File("src/Q1/Instructors.csv"));
-		File f1 = new File("bin/view/Main.fxml");
+		File f1 = new File("src/view/Main.fxml");
 		FXMLLoader loader = new FXMLLoader(f1.toURI().toURL());
 		Parent root = loader.load();
 		Scene scene = new Scene(root,820,670);
 		stage.setScene(scene);
-		scene.getStylesheets().add("view/application.css");
+		//scene.getStylesheets().add("view/application.css");
 		Controller c = loader.getController();
 		c.setInstance(root,stage,scene,instructors);
 		stage.setTitle("Program");
 		stage.show();
 	}
-	public static Collection<Instructor> importInstructors(File f1) throws IOException{
-		BufferedReader in = new BufferedReader(new FileReader(f1));
-		while (in.readLine().charAt(0)!='—') {}
-		ArrayList<Instructor> ar = new ArrayList<>();
-		while (in.ready()) {
-			ArrayList<String> strings = new ArrayList<>();
+	public static Collection<Instructor> importInstructors(File f1){
+		List<Instructor> result = new ArrayList<>();
+		InstructorParser parser = new InstructorParser(',');
+		try (BufferedReader in = new BufferedReader(new FileReader(f1))){
+			while (in.readLine().charAt(0)!='—') {}
+			
 			while (in.ready()) {
-				String str = in.readLine();
-				if (str.length()==0||str.charAt(0)=='—')
-					break;
-				strings.add(str);
+				List<String> strings = new ArrayList<>();
+				while (in.ready()) {
+					String str = in.readLine();
+					if (str.length()==0||str.charAt(0)=='—')
+						break;
+					strings.add(str);
+				}
+			Instructor instructor = new Instructor(parser,strings);
+			result.add(instructor);
 			}
-			ar.add(new Instructor(strings,','));
-		}
-		in.close();
-		return ar;
+		} catch (IOException e) {}
+		return result;
 	}
 }
 

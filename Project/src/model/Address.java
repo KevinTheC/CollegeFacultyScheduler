@@ -6,6 +6,9 @@ public class Address {
 	private String city;
 	private String state;
 	private String zip;
+	public Address() {
+		
+	}
 	public Address(String str1,String str2){
 		String[] arr1 = str1.split("[ ]");
 		String[] arr2 = str2.split("[,]");

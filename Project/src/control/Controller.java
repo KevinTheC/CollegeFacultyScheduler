@@ -2,9 +2,7 @@ package control;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,13 +12,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Instructor;
@@ -31,6 +26,13 @@ public class Controller {
 	private ListView<Instructor> results;
 	@FXML
 	private TextField searchTextField;
+	@FXML
+	private HBox hbox1;
+	@FXML
+	private BorderPane onlineTest;
+	@FXML
+	private BorderPane CourseList;
+	
 	
 	private AVLView avl;
 	private ArrayList<Instructor> original = new ArrayList<>();
@@ -40,14 +42,11 @@ public class Controller {
 	private Stage stage;
 	private Scene scene;
 	
-	@SuppressWarnings("unchecked")
 	public void setInstance(Parent root,Stage stage, Scene scene,Collection<Instructor> ints) {
 		this.root = root;
 		this.stage = stage;
 		this.scene = scene;
 		avl = new AVLView();
-		results = (ListView<Instructor>) getComponent("results").get();
-		searchTextField = (TextField) getComponent("searchTextField").get();
 		results.setCellFactory(new Callback<ListView<Instructor>,ListCell<Instructor>>(){
 			@Override
 			public ListCell<Instructor> call(ListView<Instructor> arg) {
@@ -69,7 +68,7 @@ public class Controller {
 				return cell;
 			}});
 		results.setItems(list);
-		((HBox)getComponent("vbox1").get()).getChildren().add(1,avl);
+		hbox1.getChildren().add(1,avl);
 		original.addAll(ints);
 	}
 	//handlers
@@ -106,8 +105,8 @@ public class Controller {
 			arr[0] = arr[0].replace(" ", "_");
 			((BorderPane)getComponent(arr[0]).get()).setCenter(new Text(arr[1].replace("\"", "")));
 		}
-		((BorderPane)getComponent("Online?").get()).setCenter(new Text(list.get(2)[0]));
-		((BorderPane)getComponent("CourseList").get()).setCenter(new Text(list.get(3)[0]));
+		onlineTest.setCenter(new Text(list.get(2)[0]));
+		CourseList.setCenter(new Text(list.get(3)[0]));
 	}
 	public String combine(String[] arr) {
 		String str = arr[0];
