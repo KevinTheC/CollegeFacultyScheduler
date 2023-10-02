@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
-import javafx.util.Pair;
+
 
 public class Parser<K>{
 	private HashMap<Pair,BiConsumer<String,K>> bindings;
 	private char seperator;
 	private class Pair{
-		private Pair(int x,int y) {
+		public Pair(int x,int y) {
 			this.x=x;
 			this.y=y;
 		}
@@ -23,7 +23,7 @@ public class Parser<K>{
 		    return hash;
 		}
 		public String toString() {
-			return "x: "+x+" y: "+y;
+			return "[x: "+x+" y: "+y+"]";
 		}
 	}
 	/**

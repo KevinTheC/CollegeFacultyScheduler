@@ -1,4 +1,4 @@
-package model;
+package chrono;
 
 public enum Time {
 	EarlyMorning("7AM-8AM",1),

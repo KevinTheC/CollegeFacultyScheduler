@@ -1,5 +1,6 @@
 package view;
 
+import chrono.Time;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -9,7 +10,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import model.Availability;
 import model.Day;
-import model.Time;
 public class AVLView extends VBox {
 	private final static int vStart = 1;
 	private final static int hStart = 1;

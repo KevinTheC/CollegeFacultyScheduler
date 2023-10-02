@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 public class Instructor {
 	public enum Campus {AMMERMAN, EAST, GRANT, ONLINE;
 		public static final Campus parse(char c) throws IllegalArgumentException{

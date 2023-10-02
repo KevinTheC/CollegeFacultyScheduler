@@ -4,12 +4,13 @@ import model.Course;
 import model.Day;
 import model.Instructor;
 import model.Parser;
-import model.Time;
 import model.Instructor.Campus;
 import model.Instructor.Rank;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+
+import chrono.Time;
 
 public class InstructorParser extends Parser<Instructor>{
 	public InstructorParser(char seperator) {

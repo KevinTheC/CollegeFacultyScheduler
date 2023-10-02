@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+import chrono.Time;
+
 public class Availability {
 	private TreeMap<Day,ArrayList<Time>> map;
 	public Availability() {
