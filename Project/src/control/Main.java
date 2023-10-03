@@ -2,6 +2,7 @@ package control;
 import java.math.*;
 import java.util.Scanner;
 
+import Q1.CourseParser;
 import Q1.InstructorParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Course;
 import model.Instructor;
 
 import java.io.BufferedReader;
@@ -28,6 +30,7 @@ public class Main extends Application{
 	}
 	public void start(Stage stage) throws Exception {
 		Collection<Instructor> instructors = importInstructors(new File("src/Q1/Instructors.csv"));
+		importCourses(new File("src/Q1/CourseInformation.csv"));
 		File f1 = new File("src/view/Main.fxml");
 		FXMLLoader loader = new FXMLLoader(f1.toURI().toURL());
 		Parent root = loader.load();
@@ -58,6 +61,15 @@ public class Main extends Application{
 			}
 		} catch (IOException e) {}
 		return result;
+	}
+	public static void importCourses(File f1) {
+		CourseParser parser = new CourseParser(',');
+		try (BufferedReader in = new BufferedReader(new FileReader(f1))){
+			in.readLine();
+			while (in.ready()) {
+				Course crs = Course.CourseFactory.getInstance(parser,in.readLine());
+			}
+		} catch (IOException e) {}
 	}
 }
 

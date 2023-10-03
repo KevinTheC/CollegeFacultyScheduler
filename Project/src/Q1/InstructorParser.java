@@ -4,7 +4,7 @@ import model.Course;
 import model.Day;
 import model.Instructor;
 import model.Parser;
-import model.Instructor.Campus;
+import model.Campus;
 import model.Instructor.Rank;
 
 import java.util.function.BiConsumer;
@@ -26,8 +26,13 @@ public class InstructorParser extends Parser<Instructor>{
 		bind(2,1,(str,ints)->{ints.setHireDate(str);});
 		bind(2,new int[] {2,3},(str,ints)->{
 			for (String string : str.split("[ ]"))
-				if (string.length()>1)
-					ints.getCourses().add(new Course(string));});
+				if (string.length()>1) {
+					if (string.charAt(string.length()-1)=='L') string = string.substring(0,string.length()-1);
+					Course crs = Course.CourseFactory.getInstance(string,null);
+					if (!ints.getCourses().contains(crs))
+						ints.getCourses().add(crs);
+				}
+			});
 		bind(3,0,(str,ints)->{ints.setRank(Rank.parse(str));});
 		bind(4,0,(str,ints)->{ints.setOnline(str.equals("Y"));});
 		bind(5,0,(str,ints)->{if (str.equals("")) return; 

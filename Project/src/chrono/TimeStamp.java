@@ -1,6 +1,7 @@
 package chrono;
 
 public class TimeStamp implements Comparable<TimeStamp>{
+	private final int total = 60*24;
 	private int hour;
 	private int min;
 	/**
@@ -58,5 +59,8 @@ public class TimeStamp implements Comparable<TimeStamp>{
 		if (i<10)
 			return "0"+i;
 		return i+"";
+	}
+	public double toPercent() {
+		return (double)(hour*60+min)/total;
 	}
 }

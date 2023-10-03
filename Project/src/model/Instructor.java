@@ -3,11 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 public class Instructor {
-	public enum Campus {AMMERMAN, EAST, GRANT, ONLINE;
-		public static final Campus parse(char c) throws IllegalArgumentException{
-			if (c=='A') return AMMERMAN; else if (c=='E') return EAST; else if (c=='W'||c=='G') return GRANT; else if (c=='O') return ONLINE;
-			else throw new IllegalArgumentException("Malformed char for parsing into Campus. Char: " + c);
-		}};
 	public enum Rank implements Comparable<Rank>{A3,A2,A1;
 		public static final Rank parse(String str) throws IllegalArgumentException{
 			if (str.equals("A1")) return A1; else if (str.equals("A2")) return A2; else if (str.equals("A3")) return A3;

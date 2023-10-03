@@ -2,57 +2,76 @@ package chrono;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.Optional;
 
 
 public class TimeSchedule <K>{
-	private class Tri{
-		public Tri(K type, boolean b,TimeStamp t) {
-			this.type = type;
-			this.b = b;
-			this.t = t;
-		}
-		public K type;
-		public boolean b;
-		public TimeStamp t;
-		public String toString() {
-			return "["+type+","+b+","+t+"]";
-		}
-	}
-	private LinkedList<Tri> range;
+	private LinkedList<Triple<K,Boolean,TimeStamp>> range;
 	public TimeSchedule() {
 		range = new LinkedList<>();
-		range.add(new Tri(null,true,new TimeStamp(0,0)));
-		range.add(new Tri(null,false,new TimeStamp(23,59)));
+		range.add(new Triple<K,Boolean,TimeStamp>(null,true,new TimeStamp(0,0)));
+		range.add(new Triple<K,Boolean,TimeStamp>(null,false,new TimeStamp(23,59)));
 	}
 	public boolean add(K type, TimeStamp begin, TimeStamp end) {
-		Optional<ListIterator<TimeSchedule<K>.Tri>> o = validate(type,begin,end);
+		Optional<ListIterator<Triple<K,Boolean,TimeStamp>>> o = validate(type,begin,end);
 		if (o.isEmpty()) return false;
 		var itr = o.get();
-		itr.next();
-		itr.add(new Tri(null,false,begin));
-		itr.add(new Tri(type,true,begin));
-		itr.add(new Tri(type,false,end));
-		itr.add(new Tri(null,true,end));
+		shiftTo(itr,itr.nextIndex()+1);
+		itr.add(new Triple<K,Boolean,TimeStamp>(null,false,begin));
+		itr.add(new Triple<K,Boolean,TimeStamp>(type,true,begin));
+		itr.add(new Triple<K,Boolean,TimeStamp>(type,false,end));
+		itr.add(new Triple<K,Boolean,TimeStamp>(null,true,end));
+		cleanse();
 		return true;
 	}
-	public void forceAdd(K type, TimeStamp begin, TimeStamp end) {
-		//TODO system to remove
-		Optional<ListIterator<TimeSchedule<K>.Tri>> o = validate(type,begin,begin);
-		var itr = o.get();
-		Tri pair = itr.previous();
-		itr.add(new Tri(null,false,begin));
-		itr.add(new Tri(type,true,begin));
-		itr.next();
-		while (pair.t.compareTo(end)<0) {
-			itr.remove();
-			pair = itr.next();	
+	private void cleanse() {
+		var itr = range.listIterator();
+		Triple<K,Boolean,TimeStamp> prev = itr.next();
+		Triple<K,Boolean,TimeStamp> curr;
+		while (itr.hasNext()) {
+			curr = itr.next();
+			if (Objects.equals(prev.k, curr.k)&&Objects.equals(prev.t, curr.t)) {
+				itr.remove();
+				itr.previous();
+				itr.remove();
+			}
+			prev = curr;
 		}
-		itr.previous();
-		itr.add(new Tri(type,false,end));
-		itr.add(new Tri(null,true,end));
 	}
-	public boolean remove() {
+	private void shiftTo(ListIterator<Triple<K,Boolean,TimeStamp>> itr,int index) {
+		while (itr.nextIndex()<index) {
+			itr.next();
+		}
+		while (itr.nextIndex()>index) {
+			itr.previous();
+		}
+	}
+	private Triple<K,Boolean,TimeStamp> current(ListIterator<Triple<K,Boolean,TimeStamp>> itr) {
+		Triple<K,Boolean,TimeStamp> val= itr.next();
+		itr.previous();
+		return val;
+	}
+	public boolean remove(K type, TimeStamp begin, TimeStamp end) {
+		if (!(range.contains(new Triple<K,Boolean,TimeStamp>(type,true,begin))&&range.contains(new Triple<K,Boolean,TimeStamp>(type,false,end))))
+			return false;
+		var itr = range.listIterator();
+		while (itr.hasNext()) {
+			Triple<K,Boolean,TimeStamp> tri = itr.next();
+			if (Objects.equals(tri.k,type)&&Objects.equals(tri.t,begin)) {
+				tri.k = null;
+				itr.previous();
+				break;
+			}
+		}
+		while (itr.hasNext()) {
+			Triple<K,Boolean,TimeStamp> tri = itr.next();
+			if (Objects.equals(tri.k,type)&&Objects.equals(tri.t,end)) {
+				tri.k = null;
+				break;
+			}
+		}
+		cleanse();
 		return true;
 	}
 	/**
@@ -61,11 +80,10 @@ public class TimeSchedule <K>{
 	 * @param endtime
 	 * @return null if the period can't be placed without interrupts
 	 */
-	private Optional<ListIterator<TimeSchedule<K>.Tri>> validate(K type,TimeStamp begin,TimeStamp end) {
-		ListIterator<TimeSchedule<K>.Tri> itr = range.listIterator();
-		Tri pair = itr.next();
-		itr.previous();
-		while (pair.t.compareTo(begin)<0) {
+	private Optional<ListIterator<Triple<K,Boolean,TimeStamp>>> validate(K type,TimeStamp begin,TimeStamp end) {
+		ListIterator<Triple<K,Boolean,TimeStamp>> itr = range.listIterator();
+		Triple<K,Boolean,TimeStamp> pair = current(itr);
+		while (pair.t.compareTo(begin)<=0) {
 			pair = itr.next();
 		}
 		itr.previous();
@@ -75,6 +93,18 @@ public class TimeSchedule <K>{
 		return Optional.of(itr);
 	}
 	public String toString() {
-		return range.toString();
+		StringBuilder sb = new StringBuilder();
+		var itr = range.iterator();
+		sb.append("[");
+		while (itr.hasNext()) {
+			var temp = itr.next();
+			sb.append(temp.k+","+temp.t+"-");
+			temp = itr.next();
+			sb.append(temp.t+"; ");
+		}
+		return sb.toString().substring(0,sb.length()-2)+']';
+	}
+	public boolean validate(TimeStamp begin, TimeStamp end) {
+		return !validate(null,begin,end).isEmpty();
 	}
 }

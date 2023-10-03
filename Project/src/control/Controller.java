@@ -106,7 +106,14 @@ public class Controller {
 			((BorderPane)getComponent(arr[0]).get()).setCenter(new Text(arr[1].replace("\"", "")));
 		}
 		onlineTest.setCenter(new Text(list.get(2)[0]));
-		CourseList.setCenter(new Text(list.get(3)[0]));
+		StringBuilder sb = new StringBuilder();
+		for (int i=0;i<list.get(3).length;i++) {
+			sb.append(list.get(3)[i]);
+			if (i%5==0&&i!=0)
+				sb.append('\n');
+		}
+			
+		CourseList.setCenter(new Text(sb.toString()));
 	}
 	public String combine(String[] arr) {
 		String str = arr[0];
