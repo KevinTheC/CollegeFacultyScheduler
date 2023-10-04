@@ -83,12 +83,12 @@ public class Parser<K>{
 			flag = flag||bind(x,y,cons);
 		return flag;
 	}
-	public void apply(K instance,String str) throws IndexOutOfBoundsException, RuntimeException{
+	public void apply(K instance,String str) throws RuntimeException{
 		List<String> list = new ArrayList<String>(2);
 		list.add(str);
 		apply(instance,list);
 	}
-	public void apply(K instance,List<String> str) throws IndexOutOfBoundsException, RuntimeException{
+	public void apply(K instance,List<String> str) throws RuntimeException{
 		String[][] arr = new String[str.size()][];
 		int ct = 0;
 		for (int i=0;i<str.size();i++) {
@@ -116,6 +116,7 @@ public class Parser<K>{
 				} else
 					if (pair.y<arr.length)
 						bindings.get(pair).accept(arr[pair.y][pair.x], instance);
+			} catch (IndexOutOfBoundsException e) {System.err.print("Binding at index "+pair.x+","+i+" failed. "+e.toString()+'\n');
 			} catch (RuntimeException e) {
 				RuntimeException newexp = new RuntimeException("Binding at index "+pair.x+","+i+" failed. Error: "+e.getMessage());
 				newexp.setStackTrace(e.getStackTrace());

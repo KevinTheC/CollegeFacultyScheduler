@@ -6,8 +6,7 @@ import chrono.TimeStamp;
 import model.Campus;
 
 public class Section {
-	private String name;
-	private int Crn;
+	private int crn;
 	private Course shell;
 	private Part partOfTerm;
 	private Campus campus;
@@ -15,23 +14,66 @@ public class Section {
 	private ArrayList<Day> days;
 	private TimeStamp begin;
 	private TimeStamp end;
-	public Section(String name) {
-		this.name = name;
-	}
-	public String toString() {
-		return name;
+	public Section(Parser<Section> parser, String string) {
+		days = new ArrayList<>();
+		parser.apply(this, string);
 	}
 	public int getCrn() {
-		return Crn;
+		return crn;
+	}
+	public void setCrn(int crn) {
+		this.crn = crn;
+	}
+	public Course getCourse() {
+		return shell;
+	}
+	public void setCourse(Course course) {
+		this.shell = course;
+	}
+	public Part getPartOfTerm() {
+		return partOfTerm;
+	}
+	public void setPartOfTerm(Part part) {
+		this.partOfTerm = part;
+	}
+	public Campus getCampus() {
+		return campus;
+	}
+	public void setCampus(Campus campus) {
+		this.campus = campus;
+	}
+	public boolean isInPerson() {
+		return inPerson;
+	}
+	public void setInPerson(boolean inPerson) {
+		this.inPerson = inPerson;
+	}
+	public ArrayList<Day> getDays() {
+		return days;
+	}
+	public TimeStamp getBegin() {
+		return begin;
+	}
+	public void setBegin(TimeStamp begin) {
+		this.begin = begin;
+	}
+	public TimeStamp getEnd() {
+		return end;
+	}
+	public void setEnd(TimeStamp end) {
+		this.end = end;
+	}
+	public String toString() {
+		return crn+","+shell+','+partOfTerm+','+campus+','+inPerson+','+days+','+begin+','+end;
 	}
 	public boolean equals(Object o) {
 		if (o == this)
 			return true;
 		if (!(o instanceof Section))
 			return false;
-		return name.equals(((Section)o).name);
+		return true;
 	}
 	public int hashCode() {
-		return name.hashCode()*31;
+		return 0;
 	}
 }

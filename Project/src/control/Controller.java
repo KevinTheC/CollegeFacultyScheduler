@@ -108,11 +108,10 @@ public class Controller {
 		onlineTest.setCenter(new Text(list.get(2)[0]));
 		StringBuilder sb = new StringBuilder();
 		for (int i=0;i<list.get(3).length;i++) {
-			sb.append(list.get(3)[i]);
+			sb.append(list.get(3)[i].split(",")[0]+" ");
 			if (i%5==0&&i!=0)
 				sb.append('\n');
 		}
-			
 		CourseList.setCenter(new Text(sb.toString()));
 	}
 	public String combine(String[] arr) {

@@ -1,12 +1,11 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.TreeMap;
 
 public class Course {
 	public static class CourseFactory{
-		private final static HashMap<String,Course> courseID = new HashMap<>();
-		private final static HashMap<String,Course> subjects = new HashMap<>();
+		private final static TreeMap<String,Course> courseID = new TreeMap<>();
+		private final static TreeMap<String,Course> subjects = new TreeMap<>();
 		/**
 		 * 
 		 * @param ID
@@ -24,13 +23,17 @@ public class Course {
 				return subjects.get(subject);
 			else if (sub) {
 				Course crs = subjects.get(subject);
-				crs.courseID = ID;
-				courseID.put(ID, crs);
+				if (!ID.isEmpty()) {
+					crs.courseID = ID;
+					courseID.put(ID, crs);
+				}
 				return crs;
 			} else if (id) {
 				Course crs = courseID.get(ID);
-				crs.courseSubject = subject;
-				subjects.put(subject, crs);
+				if (!subject.isEmpty()) {
+					crs.courseSubject = subject;
+					subjects.put(subject, crs);
+				}
 				return crs;
 			}
 			Course c = new Course(ID,subject);

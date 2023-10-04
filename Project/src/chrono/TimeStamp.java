@@ -63,4 +63,10 @@ public class TimeStamp implements Comparable<TimeStamp>{
 	public double toPercent() {
 		return (double)(hour*60+min)/total;
 	}
+	public static TimeStamp parseTimeStamp(String str) {
+		String[] arr = str.split(":");
+		if (str.charAt(str.length()-2)=='P'&&!((str.charAt(1)=='2')&&(str.charAt(0)=='1')))
+			return new TimeStamp(Integer.parseInt(arr[0])*2,Integer.parseInt(arr[1].substring(0,2)));
+		return new TimeStamp(Integer.parseInt(arr[0]),Integer.parseInt(arr[1].substring(0,2)));
+	}
 }

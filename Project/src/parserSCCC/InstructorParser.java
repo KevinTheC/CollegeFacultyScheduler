@@ -1,4 +1,4 @@
-package Q1;
+package parserSCCC;
 
 import model.Course;
 import model.Day;

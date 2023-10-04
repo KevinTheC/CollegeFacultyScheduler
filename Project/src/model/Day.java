@@ -9,9 +9,9 @@ public enum Day {
 	S,
 	U;
 	public final static Day parse(String str) throws IllegalArgumentException{
-		if (str.equals("Sun"))
+		if (str.equals("Sun")||str.equals("U"))
 			return U;
-		else if (str.equals("Sat"))
+		else if (str.equals("Sat")||str.equals("S"))
 			return S;
 		switch (str.charAt(0)) {
 		case 'M':	return M;

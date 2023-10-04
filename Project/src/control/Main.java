@@ -2,8 +2,6 @@ package control;
 import java.math.*;
 import java.util.Scanner;
 
-import Q1.CourseParser;
-import Q1.InstructorParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -14,6 +12,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Course;
 import model.Instructor;
+import model.Section;
+import parserSCCC.CourseParser;
+import parserSCCC.SCCCImports;
+import parserSCCC.InstructorParser;
+import parserSCCC.SectionParser;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,8 +32,10 @@ public class Main extends Application{
 		Application.launch(args);
 	}
 	public void start(Stage stage) throws Exception {
-		Collection<Instructor> instructors = importInstructors(new File("src/Q1/Instructors.csv"));
-		importCourses(new File("src/Q1/CourseInformation.csv"));
+		Collection<Instructor> instructors = SCCCImports.importInstructors(new File("src/Q1/Instructors.csv"));
+		SCCCImports.importCourses(new File("src/Q1/CourseInformation.csv"));
+		Collection<Section> sections = SCCCImports.importSections(new File("src/Q1/CourseInformation.csv"));
+		instructors.addAll(SCCCImports.importWeights(new File("src/Q1/Instructor_Recent_Courses.csv")));
 		File f1 = new File("src/view/Main.fxml");
 		FXMLLoader loader = new FXMLLoader(f1.toURI().toURL());
 		Parent root = loader.load();
@@ -41,35 +46,6 @@ public class Main extends Application{
 		c.setInstance(root,stage,scene,instructors);
 		stage.setTitle("Program");
 		stage.show();
-	}
-	public static Collection<Instructor> importInstructors(File f1){
-		List<Instructor> result = new ArrayList<>();
-		InstructorParser parser = new InstructorParser(',');
-		try (BufferedReader in = new BufferedReader(new FileReader(f1))){
-			while (in.readLine().charAt(0)!='—') {}
-			
-			while (in.ready()) {
-				List<String> strings = new ArrayList<>();
-				while (in.ready()) {
-					String str = in.readLine();
-					if (str.length()==0||str.charAt(0)=='—')
-						break;
-					strings.add(str);
-				}
-			Instructor instructor = new Instructor(parser,strings);
-			result.add(instructor);
-			}
-		} catch (IOException e) {}
-		return result;
-	}
-	public static void importCourses(File f1) {
-		CourseParser parser = new CourseParser(',');
-		try (BufferedReader in = new BufferedReader(new FileReader(f1))){
-			in.readLine();
-			while (in.ready()) {
-				Course crs = Course.CourseFactory.getInstance(parser,in.readLine());
-			}
-		} catch (IOException e) {}
 	}
 }
 
