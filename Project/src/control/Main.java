@@ -43,7 +43,7 @@ public class Main extends Application{
 		stage.setScene(scene);
 		//scene.getStylesheets().add("view/application.css");
 		Controller c = loader.getController();
-		c.setInstance(root,stage,scene,instructors);
+		c.setInstance(root,stage,scene,instructors,sections);
 		stage.setTitle("Program");
 		stage.show();
 	}

@@ -46,4 +46,10 @@
 .list .cell:empty{
 	-fx-background-color: transparent;
 }
-
+.beigeButton{
+	-fx-color: #f2da94;
+	-fx-background-color: transparent;
+	-fx-border-color: #c4b278;
+	-fx-border-radius: 5px;
+	-fx-border-width: 3px;
+}

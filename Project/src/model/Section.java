@@ -42,7 +42,7 @@ public class Section {
 	public void setCampus(Campus campus) {
 		this.campus = campus;
 	}
-	public boolean isInPerson() {
+	public boolean getInPerson() {
 		return inPerson;
 	}
 	public void setInPerson(boolean inPerson) {
