@@ -1,6 +1,7 @@
 package chrono;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.Optional;
@@ -92,17 +93,19 @@ public class TimeSchedule <K>{
 		itr.previous();
 		return Optional.of(itr);
 	}
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
+	public List<TimeRange<K>> toRanges(){
+		List<TimeRange<K>> list = new LinkedList<TimeRange<K>>();
 		var itr = range.iterator();
-		sb.append("[");
 		while (itr.hasNext()) {
 			var temp = itr.next();
-			sb.append(temp.k+","+temp.t+"-");
-			temp = itr.next();
-			sb.append(temp.t+"; ");
+			K k = temp.k;
+			TimeStamp t = temp.t;
+			list.add(new TimeRange<K>(k,t,itr.next().t));
 		}
-		return sb.toString().substring(0,sb.length()-2)+']';
+		return list;
+	}
+	public String toString() {
+		return toRanges().toString();
 	}
 	public boolean validate(TimeStamp begin, TimeStamp end) {
 		return !validate(null,begin,end).isEmpty();

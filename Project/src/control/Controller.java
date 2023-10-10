@@ -1,5 +1,8 @@
 package control;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -12,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,15 +24,12 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Instructor;
 import model.Section;
-import view.AVLView;
 
 public class Controller {
 	@FXML
@@ -84,8 +85,7 @@ public class Controller {
 	private Text sectDay;
 	@FXML
 	private Text sectTime;
-	
-	private AVLView avl;
+	private AvailabilityController aController;
 	private List<Instructor> originalInstructor = new LinkedList<>();
 	private List<Section> originalSection = new LinkedList<>();
 	private List<Section> observedSection = new LinkedList<>();
@@ -102,7 +102,6 @@ public class Controller {
 		this.root = root;
 		this.stage = stage;
 		this.scene = scene;
-		avl = new AVLView();
 		instResults.setCellFactory(new Callback<ListView<Instructor>,ListCell<Instructor>>(){
 			@Override
 			public ListCell<Instructor> call(ListView<Instructor> arg) {
@@ -118,7 +117,7 @@ public class Controller {
 				};
 				cell.setOnMouseClicked(e->{
 					if (cell.getItem()!=null) {
-						avl.refresh(cell.getItem().getAvailability());
+						aController.refresh(cell.getItem().getAvailability());
 						instructorInfo(cell.getItem());
 					}});
 				return cell;
@@ -144,7 +143,14 @@ public class Controller {
 			}});
 		instResults.setItems(listInstructor);
 		sectionResults.setItems(listSection);
-		hbox1.getChildren().add(1,avl);
+		FXMLLoader loader;
+		try {
+			loader = new FXMLLoader(new File("src/view/Availability.fxml").toURI().toURL());
+			Parent aRoot = loader.load();
+			hbox1.getChildren().add(1,aRoot);
+			aController = loader.getController();
+			aController.setInstance(aRoot, stage, scene);
+		} catch (IOException e) {}
 		originalInstructor.addAll(ints);
 		originalSection.addAll(sec);
 	}
@@ -224,11 +230,5 @@ public class Controller {
 		for (int i=1;i<arr.length;i++)
 			str+="\n"+arr[i];
 		return str;
-	}
-	public Optional<Node> getComponent(String id){
-		Node n = scene.lookup("#"+id);
-		if (n==null)
-			return Optional.empty();
-		return Optional.of(n);
 	}
 }

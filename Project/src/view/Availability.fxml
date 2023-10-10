@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="317.0" styleClass="rect" stylesheets="@application.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.AvailabilityController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="28.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="M" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="T" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="W" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="R" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="F" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="S" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="U" />
+         </children>
+      </HBox>
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="279.0" stylesheets="@application.css">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="29.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="7AM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="8AM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="9AM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="10AM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="11AM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="12PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="4PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="6PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="7PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="8PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="9PM" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="10PM" />
+               </children>
+            </VBox>
+            <Rectangle fx:id="monday" arcHeight="5.0" arcWidth="5.0" fill="#e76a40" height="260.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+            <Rectangle fx:id="tuesday" arcHeight="5.0" arcWidth="5.0" fill="#e76a40" height="260.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+            <Rectangle fx:id="wednesday" arcHeight="5.0" arcWidth="5.0" fill="#e76a40" height="260.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+            <Rectangle fx:id="thursday" arcHeight="5.0" arcWidth="5.0" fill="#e76a40" height="260.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+            <Rectangle fx:id="friday" arcHeight="5.0" arcWidth="5.0" fill="#e76a40" height="260.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+            <Rectangle fx:id="saturday" arcHeight="5.0" arcWidth="5.0" fill="#e76a40" height="260.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+            <Rectangle fx:id="sunday" arcHeight="5.0" arcWidth="5.0" fill="#e76a40" height="260.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

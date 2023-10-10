@@ -1,42 +1,32 @@
 package model;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeMap;
 
-import chrono.Time;
+import chrono.TimeSchedule;
+import chrono.TimeStamp;
 
 public class Availability {
-	private TreeMap<Day,ArrayList<Time>> map;
+	private TreeMap<Day,TimeSchedule<Course>> map;
 	public Availability() {
 		map = new TreeMap<>();
 		Day[] days = {Day.M,Day.T,Day.W,Day.R,Day.F,Day.S,Day.U};
 		for (Day d : days)
-			map.put(d, new ArrayList<Time>(6));
+			map.put(d, new TimeSchedule<Course>());
 	}
-	public void put(Time t, Day...days) {
+	public void put(Course crs,TimeStamp begin, TimeStamp end, Day...days) {
 		for (Day d : days) {
-			if (t == Time.Open)
-				for (Time time : new Time[]{Time.EarlyMorning,Time.Morning,Time.Afternoon})
-					put(time,d);
-			if (!map.get(d).contains(t))
-				map.get(d).add(t);
+			map.get(d).add(crs,begin,end);
 		}
 	}
-	public void remove(Time t, Day...days) {
+	public void remove(Course crs, TimeStamp begin, TimeStamp end, Day...days) {
 		for (Day d : days) {
-			if (t == Time.Open)
-				for (Time time : new Time[]{Time.EarlyMorning,Time.Morning,Time.Afternoon})
-					remove(time,d);
-			if (!map.get(d).contains(t))
-				map.get(d).remove(t);
-			
+			map.get(d).remove(crs,begin,end);
 		}
 	}
-	public boolean available(Time t, Day d) {
-		if (t == Time.Open)
-			return available(Time.EarlyMorning,d)&&available(Time.Morning,d)&&available(Time.Afternoon,d);
-		return map.get(d).contains(t);
+	public TimeSchedule<Course> get(Day d) {
+		return map.get(d);
+	}
+	public boolean available(TimeStamp begin, TimeStamp end, Day d) {
+		return map.get(d).validate(begin, end);
 	}
 	public boolean equals(Object o) {
 		if (o == this)
@@ -49,7 +39,6 @@ public class Availability {
 				return false;
 		return true;
 	}
-	
 	public String toString() {
 		return map.toString();
 	}

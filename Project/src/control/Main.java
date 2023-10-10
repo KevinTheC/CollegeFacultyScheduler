@@ -36,8 +36,7 @@ public class Main extends Application{
 		SCCCImports.importCourses(new File("src/Q1/CourseInformation.csv"));
 		Collection<Section> sections = SCCCImports.importSections(new File("src/Q1/CourseInformation.csv"));
 		instructors.addAll(SCCCImports.importWeights(new File("src/Q1/Instructor_Recent_Courses.csv")));
-		File f1 = new File("src/view/Main.fxml");
-		FXMLLoader loader = new FXMLLoader(f1.toURI().toURL());
+		FXMLLoader loader = new FXMLLoader(new File("src/view/Main.fxml").toURI().toURL());
 		Parent root = loader.load();
 		Scene scene = new Scene(root,820,670);
 		stage.setScene(scene);

@@ -60,8 +60,8 @@ public class TimeStamp implements Comparable<TimeStamp>{
 			return "0"+i;
 		return i+"";
 	}
-	public double toPercent() {
-		return (double)(hour*60+min)/total;
+	public int toMin() {
+		return hour*60+min;
 	}
 	public static TimeStamp parseTimeStamp(String str) {
 		String[] arr = str.split(":");

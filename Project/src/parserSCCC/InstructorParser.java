@@ -10,7 +10,8 @@ import model.Instructor.Rank;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
-import chrono.Time;
+import chrono.TimeRange;
+import chrono.TimeStamp;
 
 public class InstructorParser extends Parser<Instructor>{
 	public InstructorParser(char seperator) {
@@ -44,8 +45,8 @@ public class InstructorParser extends Parser<Instructor>{
 		bind(6,new int[] {0,1},(str,ints)->{if (str.equals("Y")) ints.setCourseCount(ints.getCourseCount()+1);});
 		
 		//for reusability
-		BiFunction<Time,Time,BiConsumer<String,Instructor>> avlParserGenerator = (tNormal,tAsterisk)->{return (str, ints)->{
-			Time t = null;
+		BiFunction<TimeRange<Course>,TimeRange<Course>,BiConsumer<String,Instructor>> avlParserGenerator = (tNormal,tAsterisk)->{return (str, ints)->{
+			TimeRange<Course> t = null;
 			if (str.length()==0)
 				return;
 			if (str.charAt(0)=='*')
@@ -57,25 +58,30 @@ public class InstructorParser extends Parser<Instructor>{
 				if (str.charAt(i)==' '||str.charAt(i)=='*')
 					continue;
 				else if (str.charAt(i)=='S') {
-					ints.getAvailability().put(t, Day.parse(str.substring(i,i+3)));
+					ints.getAvailability().put(Course.empty,t.getBegin(),t.getEnd(),Day.parse(str.substring(i,i+3)));
 					i+=2;
 				} else if (str.charAt(i)=='T'){
 					if (tu) {
-						ints.getAvailability().put(t, Day.T);
+						ints.getAvailability().put(Course.empty,t.getBegin(),t.getEnd(), Day.T);
 						tu = !tu;
 					} else
-						ints.getAvailability().put(t, Day.R);
+						ints.getAvailability().put(Course.empty,t.getBegin(),t.getEnd(), Day.R);
 				} else {
-					ints.getAvailability().put(t,Day.parse(str.charAt(i)+""));
+					ints.getAvailability().put(Course.empty,t.getBegin(),t.getEnd(),Day.parse(str.charAt(i)+""));
 				}
 			}
 		};};
 		
-		bind(8,avlParserGenerator.apply(Time.Morning, Time.EarlyMorning));
-		bind(9,avlParserGenerator.apply(Time.Afternoon, Time.LateAfternoon));
-		bind(10,avlParserGenerator.apply(Time.Open, null));
-		bind(11,avlParserGenerator.apply(Time.LaterAfternoon, null));
-		bind(12,avlParserGenerator.apply(Time.Evening, null));
+		bind(8,avlParserGenerator.apply(
+				new TimeRange<Course>(Course.empty,new TimeStamp(8,0),new TimeStamp(12,0)),
+				new TimeRange<Course>(Course.empty,new TimeStamp(7,0),new TimeStamp(8,0))));
+		bind(9,avlParserGenerator.apply(
+				new TimeRange<Course>(Course.empty,new TimeStamp(12,0),new TimeStamp(15,0)),
+				new TimeRange<Course>(Course.empty,new TimeStamp(15,0),new TimeStamp(16,0))));
+		bind(10,avlParserGenerator.apply(
+				new TimeRange<Course>(Course.empty,new TimeStamp(8,0),new TimeStamp(15,0)),null));
+		bind(11,avlParserGenerator.apply(new TimeRange<Course>(Course.empty,new TimeStamp(16,0),new TimeStamp(18,0)), null));
+		bind(12,avlParserGenerator.apply(new TimeRange<Course>(Course.empty,new TimeStamp(18,0),new TimeStamp(22,0)), null));
 	}
 	
 	//weight taught recently, match skill level through weighting

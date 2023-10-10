@@ -3,6 +3,7 @@ package model;
 import java.util.TreeMap;
 
 public class Course {
+	public static final Course empty = new Course("Free","");
 	public static class CourseFactory{
 		private final static TreeMap<String,Course> courseID = new TreeMap<>();
 		private final static TreeMap<String,Course> subjects = new TreeMap<>();
