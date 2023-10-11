@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<HBox prefHeight="291.0" prefWidth="820.0" styleClass="rect" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SectionController">
+   <children>
+      <ListView id="sectionResults" fx:id="sectionResults" prefHeight="472.0" prefWidth="213.0" styleClass="list" stylesheets="@application.css" />
+      <VBox alignment="CENTER" prefHeight="574.0" prefWidth="338.0" styleClass="containerLayer1" stylesheets="@application.css">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="166.0" spacing="3.0" styleClass="containerLayer2" stylesheets="@application.css">
+                     <children>
+                        <Text id="sectCourse" strokeType="OUTSIDE" strokeWidth="0.0" text="Course" wrappingWidth="38.13671875" />
+                        <BorderPane prefHeight="233.0" prefWidth="360.0" styleClass="containerLayer3" stylesheets="@application.css">
+                           <center>
+                              <Text fx:id="sectCourse" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="231.0" spacing="3.0" styleClass="containerLayer2" stylesheets="@application.css">
+                     <children>
+                        <Text id="sectCRN" strokeType="OUTSIDE" strokeWidth="0.0" text="CRN" wrappingWidth="26.13671875" />
+                        <BorderPane prefHeight="233.0" prefWidth="360.0" styleClass="containerLayer3" stylesheets="@application.css">
+                           <center>
+                              <Text fx:id="sectCRN" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="126.0" styleClass="containerLayer2" stylesheets="@application.css">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Campus" wrappingWidth="43.73675346374512" />
+                        <BorderPane prefHeight="233.0" prefWidth="360.0" styleClass="containerLayer3" stylesheets="@application.css">
+                           <center>
+                              <Text fx:id="sectCampus" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="126.0" styleClass="containerLayer2" stylesheets="@application.css">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Online" wrappingWidth="38.13671684265137" />
+                        <BorderPane prefHeight="233.0" prefWidth="360.0" styleClass="containerLayer3" stylesheets="@application.css">
+                           <center>
+                              <Text fx:id="sectOnline" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="126.0" styleClass="containerLayer2" stylesheets="@application.css">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Part" wrappingWidth="26.13671875" />
+                        <BorderPane prefHeight="233.0" prefWidth="360.0" styleClass="containerLayer3" stylesheets="@application.css">
+                           <center>
+                              <Text fx:id="sectPart" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="126.0" styleClass="containerLayer2" stylesheets="@application.css">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Days" wrappingWidth="26.13671875" />
+                        <BorderPane prefHeight="233.0" prefWidth="360.0" styleClass="containerLayer3" stylesheets="@application.css">
+                           <center>
+                              <Text fx:id="sectDay" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="126.0" styleClass="containerLayer2" stylesheets="@application.css">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time" wrappingWidth="26.13671875" />
+                        <BorderPane prefHeight="233.0" prefWidth="360.0" styleClass="containerLayer3" stylesheets="@application.css">
+                           <center>
+                              <Text fx:id="sectTime" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="6.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>
