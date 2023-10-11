@@ -4,25 +4,25 @@ import java.util.TreeMap;
 import chrono.TimeSchedule;
 import chrono.TimeStamp;
 
-public class Availability {
-	private TreeMap<Day,TimeSchedule<Course>> map;
+public class Availability<K> {
+	private TreeMap<Day,TimeSchedule<K>> map;
 	public Availability() {
 		map = new TreeMap<>();
 		Day[] days = {Day.M,Day.T,Day.W,Day.R,Day.F,Day.S,Day.U};
 		for (Day d : days)
-			map.put(d, new TimeSchedule<Course>());
+			map.put(d, new TimeSchedule<K>());
 	}
-	public void put(Course crs,TimeStamp begin, TimeStamp end, Day...days) {
+	public void put(K k,TimeStamp begin, TimeStamp end, Day...days) {
 		for (Day d : days) {
-			map.get(d).add(crs,begin,end);
+			map.get(d).add(k,begin,end);
 		}
 	}
-	public void remove(Course crs, TimeStamp begin, TimeStamp end, Day...days) {
+	public void remove(K k, TimeStamp begin, TimeStamp end, Day...days) {
 		for (Day d : days) {
-			map.get(d).remove(crs,begin,end);
+			map.get(d).remove(k,begin,end);
 		}
 	}
-	public TimeSchedule<Course> get(Day d) {
+	public TimeSchedule<K> get(Day d) {
 		return map.get(d);
 	}
 	public boolean available(TimeStamp begin, TimeStamp end, Day d) {

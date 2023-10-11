@@ -1,19 +1,25 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import chrono.TimeStamp;
 import model.Campus;
 
 public class Section {
+	public static final Section empty = new Section();
 	private int crn;
 	private Course shell;
 	private Part partOfTerm;
 	private Campus campus;
 	private boolean inPerson;
-	private ArrayList<Day> days;
+	private List<Day> days;
 	private TimeStamp begin;
 	private TimeStamp end;
+	private Section() {
+		crn = -1;
+		shell = Course.empty;
+	}
 	public Section(Parser<Section> parser, String string) {
 		days = new ArrayList<>();
 		parser.apply(this, string);
@@ -48,7 +54,7 @@ public class Section {
 	public void setInPerson(boolean inPerson) {
 		this.inPerson = inPerson;
 	}
-	public ArrayList<Day> getDays() {
+	public List<Day> getDays() {
 		return days;
 	}
 	public TimeStamp getBegin() {
@@ -71,9 +77,9 @@ public class Section {
 			return true;
 		if (!(o instanceof Section))
 			return false;
-		return true;
+		return crn == ((Section)o).crn;
 	}
 	public int hashCode() {
-		return 0;
+		return crn * 31 + shell.hashCode();
 	}
 }

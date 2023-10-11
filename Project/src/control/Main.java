@@ -40,7 +40,6 @@ public class Main extends Application{
 		Parent root = loader.load();
 		Scene scene = new Scene(root,820,670);
 		stage.setScene(scene);
-		//scene.getStylesheets().add("view/application.css");
 		Controller c = loader.getController();
 		c.setInstance(root,stage,scene,instructors,sections);
 		stage.setTitle("Program");

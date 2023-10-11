@@ -79,4 +79,7 @@ public class Course {
 		Course crs = (Course)o;
 		return crs.courseID.equals(courseID)&&crs.courseSubject.equals(courseSubject);
 	}
+	public int hashCode() {
+		return courseID.hashCode() * 31 + courseSubject.hashCode();
+	}
 }

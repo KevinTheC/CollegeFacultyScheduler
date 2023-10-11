@@ -4,6 +4,7 @@ import model.Course;
 import model.Day;
 import model.Instructor;
 import model.Parser;
+import model.Section;
 import model.Campus;
 import model.Instructor.Rank;
 
@@ -58,16 +59,16 @@ public class InstructorParser extends Parser<Instructor>{
 				if (str.charAt(i)==' '||str.charAt(i)=='*')
 					continue;
 				else if (str.charAt(i)=='S') {
-					ints.getAvailability().put(Course.empty,t.getBegin(),t.getEnd(),Day.parse(str.substring(i,i+3)));
+					ints.getAvailability().put(Section.empty,t.getBegin(),t.getEnd(),Day.parse(str.substring(i,i+3)));
 					i+=2;
 				} else if (str.charAt(i)=='T'){
 					if (tu) {
-						ints.getAvailability().put(Course.empty,t.getBegin(),t.getEnd(), Day.T);
+						ints.getAvailability().put(Section.empty,t.getBegin(),t.getEnd(), Day.T);
 						tu = !tu;
 					} else
-						ints.getAvailability().put(Course.empty,t.getBegin(),t.getEnd(), Day.R);
+						ints.getAvailability().put(Section.empty,t.getBegin(),t.getEnd(), Day.R);
 				} else {
-					ints.getAvailability().put(Course.empty,t.getBegin(),t.getEnd(),Day.parse(str.charAt(i)+""));
+					ints.getAvailability().put(Section.empty,t.getBegin(),t.getEnd(),Day.parse(str.charAt(i)+""));
 				}
 			}
 		};};

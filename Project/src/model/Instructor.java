@@ -1,10 +1,14 @@
 package model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 public class Instructor {
 	
 	public static class InstructorFactory{
@@ -46,10 +50,11 @@ public class Instructor {
 	private String homePhone;
 	private String address;
 	private String hireDate;
-	private List<Course> courses;
+	private Set<Course> courses;
+	private Set<Section> sections;
 	private Rank ranking;
 	private boolean online;
-	private List<Campus> preferred;
+	private Set<Campus> preferred;
 	private final static Comparator<Course> comp = new Comparator<>() {
 		@Override
 		public int compare(Course o1, Course o2) {
@@ -57,7 +62,7 @@ public class Instructor {
 		}};
 	private TreeMap<Course,Integer> weights;
 	private int courseCount;
-	private Availability avl;
+	private Availability<Section> avl;
 	/**
 	 * Lazy Constructor, defaults all values to null
 	 */
@@ -66,16 +71,18 @@ public class Instructor {
 		this.ID = -1;
 		this.online = false;
 		this.courseCount = -1;
-		courses = new LinkedList<>();
-		preferred = new LinkedList<>();
+		courses = new HashSet<>();
+		preferred = new HashSet<>();
+		sections = new HashSet<>();
 		weights = new TreeMap<>(comp);
-		avl = new Availability();
+		avl = new Availability<>();
 	}
 	private Instructor(Parser<Instructor> parser, List<String> strings) {
-		courses = new LinkedList<>();
-		preferred = new LinkedList<>();
+		courses = new HashSet<>();
+		preferred = new HashSet<>();
+		sections = new HashSet<>();
 		weights = new TreeMap<>(comp);
-		avl = new Availability();
+		avl = new Availability<>();
 		parser.apply(this,strings);
 	}
 	public String toString() {
@@ -128,7 +135,7 @@ public class Instructor {
 	public void setHireDate(String hireDate) {
 		this.hireDate = hireDate;
 	}
-	public List<Course> getCourses(){
+	public Set<Course> getCourses(){
 		return courses;
 	}
 	public Rank getRank() {
@@ -143,7 +150,7 @@ public class Instructor {
 	public void setOnline(boolean online) {
 		this.online = online;
 	}
-	public List<Campus> getPreferences(){
+	public Set<Campus> getPreferences(){
 		return preferred;
 	}
 	public TreeMap<Course,Integer> getWeights(){
@@ -155,7 +162,20 @@ public class Instructor {
 	public void setCourseCount(int courseCount) {
 		this.courseCount = courseCount;
 	}
-	public Availability getAvailability() {
+	public Availability<Section> getAvailability() {
 		return avl;
+	}
+	public void addSection(Section src) {
+		Day[] arr = (Day[])src.getDays().toArray();
+		avl.put(src, src.getBegin(), src.getEnd(), arr);
+		sections.add(src);
+	}
+	public void removeSection(Section src) {
+		Day[] arr = (Day[])src.getDays().toArray();
+		avl.remove(src, src.getBegin(), src.getEnd(), arr);
+		sections.remove(src);
+	}
+	public Stream<Section> getSections(){
+		return sections.stream();
 	}
 }

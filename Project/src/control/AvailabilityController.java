@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import model.Availability;
 import model.Course;
 import model.Day;
+import model.Section;
 
 public class AvailabilityController {
 	@FXML
@@ -45,13 +46,13 @@ public class AvailabilityController {
 		rects = new Rectangle[] {monday,tuesday,wednesday,thursday,friday,saturday,sunday};
 		colors = new Color[] {Color.RED,Color.BLUE,Color.BLACK,Color.GREEN};
 	}
-	public void refresh(Availability avl) {
+	public void refresh(Availability<Section> avl) {
 		int min = 420;
 		int max = 900;
 		int col = 0;
-		HashMap<Course,Color> legend = new HashMap<>();
+		HashMap<Section,Color> legend = new HashMap<>();
 		for (Day day : Day.values()) {
-			List<TimeRange<Course>> list = avl.get(day).toRanges();
+			List<TimeRange<Section>> list = avl.get(day).toRanges();
 			List<Stop> stops = new LinkedList<>();
 			for (int i=0;i<list.size();i++) {
 				if (!legend.containsKey(list.get(i).getType()))

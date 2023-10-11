@@ -3,8 +3,12 @@ package control;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import javafx.scene.text.Text;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +37,7 @@ public class Controller {
 	
 	private InstructorController iC;
 	private SectionController sC;
+	private AssignmentController aC;
 	private Mode mode;
 	private Parent root;
 	private Stage stage;
@@ -49,7 +54,7 @@ public class Controller {
 	}
 	
 	public void setInstance(Parent root,Stage stage, Scene scene,Collection<Instructor> ints,Collection<Section> sec) {
-		mode = Mode.InstructorView;
+		mode = Mode.AssignmentView;
 		this.root = root;
 		this.stage = stage;
 		this.scene = scene;
@@ -68,17 +73,24 @@ public class Controller {
 			sC = loader.getController();
 			sC.setInstance(aRoot, stage, scene, sec);
 		} catch (IOException e) {}
+		try {
+			loader = new FXMLLoader(new File("src/view/AssignmentView.fxml").toURI().toURL());
+			Parent aRoot = loader.load();
+			stack.getChildren().add(aRoot);
+			aC = loader.getController();
+			aC.setInstance(aRoot, stage, scene, ints, sec);
+		} catch (IOException e) {}
 	}
 	public void onAction(ActionEvent e) {
 		stack.getChildren().add(stack.getChildren().remove(0));
 		if (mode == Mode.InstructorView) {
-			titleText.setText("Type an ID or name");
 			keyRelease(null);
 		}
 		else if (mode == Mode.SectionView){
 			titleText.setText("Type a section name");
 			keyRelease(null);
 		} else {
+			titleText.setText("Type an ID or name");
 			keyRelease(null);
 		}
 		mode = Mode.rotate(mode);
@@ -89,12 +101,7 @@ public class Controller {
 			iC.refresh(searchTextField.getText());
 		else if (mode == Mode.SectionView)
 			sC.refresh(searchTextField.getText());
-	}
-	
-	public String combine(String[] arr) {
-		String str = arr[0];
-		for (int i=1;i<arr.length;i++)
-			str+="\n"+arr[i];
-		return str;
+		else
+			aC.refresh(searchTextField.getText());
 	}
 }
