@@ -53,7 +53,7 @@ public class Controller {
 		}
 	}
 	
-	public void setInstance(Parent root,Stage stage, Scene scene,Collection<Instructor> ints,Collection<Section> sec) {
+	public void setInstance(Parent root,Stage stage, Scene scene) {
 		mode = Mode.AssignmentView;
 		this.root = root;
 		this.stage = stage;
@@ -64,21 +64,21 @@ public class Controller {
 			Parent aRoot = loader.load();
 			stack.getChildren().add(aRoot);
 			iC = loader.getController();
-			iC.setInstance(aRoot, stage, scene, ints);
+			iC.setInstance(aRoot, stage, scene);
 		} catch (IOException e) {}
 		try {
 			loader = new FXMLLoader(new File("src/view/SectionView.fxml").toURI().toURL());
 			Parent aRoot = loader.load();
 			stack.getChildren().add(aRoot);
 			sC = loader.getController();
-			sC.setInstance(aRoot, stage, scene, sec);
+			sC.setInstance(aRoot, stage, scene);
 		} catch (IOException e) {}
 		try {
 			loader = new FXMLLoader(new File("src/view/AssignmentView.fxml").toURI().toURL());
 			Parent aRoot = loader.load();
 			stack.getChildren().add(aRoot);
 			aC = loader.getController();
-			aC.setInstance(aRoot, stage, scene, ints, sec);
+			aC.setInstance(aRoot, stage, scene);
 		} catch (IOException e) {}
 	}
 	public void onAction(ActionEvent e) {

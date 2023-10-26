@@ -1,4 +1,4 @@
-package parserSCCC;
+package model.IO.SCCC;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,11 +11,12 @@ import java.util.List;
 
 import model.Course;
 import model.Instructor;
-import model.Parser;
 import model.Section;
+import model.IO.SVReader;
 
 public class SCCCImports {
-	public static Collection<Instructor> importInstructors(File f1){
+	private SCCCImports() {}
+	public static void importInstructors(File f1){
 		List<Instructor> result = new LinkedList<>();
 		InstructorParser parser = new InstructorParser(',');
 		try (BufferedReader in = new BufferedReader(new FileReader(f1))){
@@ -33,7 +34,6 @@ public class SCCCImports {
 			result.add(instructor);
 			}
 		} catch (IOException e) {}
-		return result;
 	}
 	public static void importCourses(File f1) {
 		CourseParser parser = new CourseParser(',');
@@ -44,20 +44,19 @@ public class SCCCImports {
 			}
 		} catch (IOException e) {}
 	}
-	public static Collection<Section> importSections(File f1){
+	public static void importSections(File f1){
 		List<Section> result = new LinkedList<>();
 		SectionParser parser = new SectionParser(',');
 		try (BufferedReader in = new BufferedReader(new FileReader(f1))){
 			in.readLine();
 			
 			while (in.ready()) {
-				Section section = new Section(parser,in.readLine());
+				Section section = Section.SectionFactory.getInstance(parser,in.readLine());
 				result.add(section);
 				}
 		} catch (IOException e) {}
-		return result;
 	}
-	public static Collection<Instructor> importWeights(File f1){
+	public static void importWeights(File f1){
 		List<Instructor> result = new LinkedList<>();
 		CourseWeightParser parser = new CourseWeightParser(',');
 		try (BufferedReader in = new BufferedReader(new FileReader(f1))){
@@ -70,6 +69,5 @@ public class SCCCImports {
 				result.add(inst);
 				}
 		} catch (IOException e) {}
-		return result;
 	}
 }

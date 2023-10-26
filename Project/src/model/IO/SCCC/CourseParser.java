@@ -1,9 +1,9 @@
-package parserSCCC;
+package model.IO.SCCC;
 
 import model.Course;
-import model.Parser;
+import model.IO.SVReader;
 
-public class CourseParser extends Parser<Course> {
+public class CourseParser extends SVReader<Course> {
 	public CourseParser(char seperator) {
 		super(seperator);
 		bind(3,(str,course)->{course.setCourseSubject(str);});

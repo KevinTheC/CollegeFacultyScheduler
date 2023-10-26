@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import chrono.TimeRange;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +17,7 @@ import model.Availability;
 import model.Course;
 import model.Day;
 import model.Section;
+import model.chrono.TimeRange;
 
 public class AvailabilityController {
 	@FXML

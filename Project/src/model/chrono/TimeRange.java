@@ -1,4 +1,4 @@
-package chrono;
+package model.chrono;
 
 public class TimeRange<K>{
 	private TimeStamp begin;

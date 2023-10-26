@@ -1,5 +1,6 @@
-package chrono;
+package model.chrono;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -7,7 +8,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 
-public class TimeSchedule <K>{
+public class TimeSchedule <K> implements Serializable{
+	private static final long serialVersionUID = 911099739888187356L;
 	private LinkedList<Triple<K,Boolean,TimeStamp>> range;
 	public TimeSchedule() {
 		range = new LinkedList<>();

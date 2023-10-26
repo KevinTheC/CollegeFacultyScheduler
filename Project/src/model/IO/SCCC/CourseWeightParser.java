@@ -1,4 +1,4 @@
-package parserSCCC;
+package model.IO.SCCC;
 
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
@@ -6,9 +6,9 @@ import java.util.function.Function;
 
 import model.Course;
 import model.Instructor;
-import model.Parser;
+import model.IO.SVReader;
 
-public class CourseWeightParser extends Parser<Instructor>{
+public class CourseWeightParser extends SVReader<Instructor>{
 	public CourseWeightParser(char seperator) {
 		super(seperator);
 		Function<Integer,BiConsumer<String,Instructor>> func = (num)->{

@@ -38,13 +38,12 @@ public class SectionController {
 	private Text sectDay;
 	@FXML
 	private Text sectTime;
-	private List<Section> originalSection = new LinkedList<>();
 	private List<Section> observedSection = new LinkedList<>();
 	private ObservableList<Section> listSection = FXCollections.observableList(observedSection);
 	private Parent root;
 	private Stage stage;
 	private Scene scene;
-	public void setInstance(Parent root,Stage stage, Scene scene, Collection<Section> sec) {
+	public void setInstance(Parent root,Stage stage, Scene scene) {
 		this.root = root;
 		this.stage = stage;
 		this.scene = scene;
@@ -68,7 +67,6 @@ public class SectionController {
 				return cell;
 			}});
 		sectionResults.setItems(listSection);
-		originalSection.addAll(sec);
 	}
 	public void sectionInfo(Section sec) {
 		sectCourse.setText(sec.getCourse().toString());
@@ -82,7 +80,7 @@ public class SectionController {
 	}
 	public void refresh(String str) {
 		observedSection.clear();
-		observedSection.addAll(originalSection);
+		observedSection.addAll(Section.SectionFactory.getStream().toList());
 		listSection.setAll(observedSection.stream()
 				.filter((Section s)->{
 					return s.getCourse().getCourseID().toUpperCase().contains(str.toUpperCase())||

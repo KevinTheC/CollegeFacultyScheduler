@@ -1,13 +1,40 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-
-import chrono.TimeStamp;
-import model.Campus;
+import java.util.Set;
+import java.util.stream.Stream;
+import model.IO.GenericReader;
+import model.chrono.TimeStamp;
 
 public class Section {
 	public static final Section empty = new Section();
+	public static class SectionFactory{
+		private final static HashMap<Integer,Section> set = new HashMap<>();
+		public static Section getInstance(GenericReader<Section> parser, List<String> strings) {
+			Section ints = new Section(parser,strings);
+			if (set.containsKey(ints.crn))
+				return set.get(ints.crn);
+			set.put(ints.crn,ints);
+			return ints;
+		}
+		public static Section getInstance(GenericReader<Section> parser, String string) {
+			ArrayList<String> strings = new ArrayList<>();
+			strings.add(string);
+			return getInstance(parser,strings);
+		}
+		public static Section getInstance(Section s) {
+			return set.get(s.crn);
+		}
+		public static Stream<Section> getStream(){
+			List<Section> list = new LinkedList<>();
+			set.entrySet().forEach((i)->{list.add(i.getValue());});
+			return list.stream();
+		}
+	}
 	private int crn;
 	private Course shell;
 	private Part partOfTerm;
@@ -20,8 +47,8 @@ public class Section {
 		crn = -1;
 		shell = Course.empty;
 	}
-	public Section(Parser<Section> parser, String string) {
-		days = new ArrayList<>();
+	private Section(GenericReader<Section> parser, List<String> string) {
+		days = new LinkedList<>();
 		parser.apply(this, string);
 	}
 	public int getCrn() {

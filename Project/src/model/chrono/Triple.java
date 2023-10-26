@@ -1,8 +1,10 @@
-package chrono;
+package model.chrono;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Triple <K,V,T>{
+public class Triple <K,V,T> implements Serializable{
+	private static final long serialVersionUID = -987803388444047879L;
 	public K k;
 	public V v;
 	public T t;

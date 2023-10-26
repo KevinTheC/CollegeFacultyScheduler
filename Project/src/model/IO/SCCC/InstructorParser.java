@@ -1,20 +1,19 @@
-package parserSCCC;
+package model.IO.SCCC;
 
 import model.Course;
 import model.Day;
 import model.Instructor;
-import model.Parser;
 import model.Section;
+import model.IO.SVReader;
 import model.Campus;
 import model.Instructor.Rank;
+import model.chrono.TimeRange;
+import model.chrono.TimeStamp;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
-import chrono.TimeRange;
-import chrono.TimeStamp;
-
-public class InstructorParser extends Parser<Instructor>{
+public class InstructorParser extends SVReader<Instructor>{
 	public InstructorParser(char seperator) {
 		//implements logic for given spreadsheet
 		super(seperator);

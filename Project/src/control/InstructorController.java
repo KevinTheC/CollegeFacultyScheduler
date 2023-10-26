@@ -51,12 +51,11 @@ public class InstructorController {
 	private Parent root;
 	private Stage stage;
 	private Scene scene;
-	private List<Instructor> originalInstructor = new LinkedList<>();
 	private List<Instructor> observedInstructor = new LinkedList<>();
 	private ObservableList<Instructor> listInstructor = FXCollections.observableList(observedInstructor);
 	private AvailabilityController aController;
 	
-	public void setInstance(Parent root,Stage stage, Scene scene, Collection<Instructor> ints) {
+	public void setInstance(Parent root,Stage stage, Scene scene) {
 		this.root = root;
 		this.stage = stage;
 		this.scene = scene;
@@ -89,7 +88,6 @@ public class InstructorController {
 			aController = loader.getController();
 			aController.setInstance(aRoot, stage, scene);
 		} catch (IOException e) {}
-		originalInstructor.addAll(ints);
 	}
 	//helper methods (string and node parsing)
 	public void instructorInfo(Instructor in) {
@@ -118,7 +116,7 @@ public class InstructorController {
 	}
 	public void refresh(String str) {
 		observedInstructor.clear();
-		observedInstructor.addAll(originalInstructor);
+		observedInstructor.addAll(Instructor.InstructorFactory.getStream().toList());
 		listInstructor.setAll(observedInstructor.stream()
 				.filter((Instructor i)->{
 					try {

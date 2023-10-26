@@ -1,14 +1,14 @@
-package parserSCCC;
+package model.IO.SCCC;
 
-import chrono.TimeStamp;
 import model.Campus;
 import model.Course;
 import model.Day;
-import model.Parser;
 import model.Part;
 import model.Section;
+import model.IO.SVReader;
+import model.chrono.TimeStamp;
 
-public class SectionParser extends Parser<Section>{
+public class SectionParser extends SVReader<Section>{
 	public SectionParser(char seperator) {
 		super(seperator);
 		bind(0,(string, section)->{});

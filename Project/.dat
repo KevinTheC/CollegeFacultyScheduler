@@ -1,0 +1,100 @@
+{
+"Course": [
+{
+"CourseID": MAT102,
+"CourseSubject": A Survey of Contemporary Mathe,
+}
+{
+"CourseID": MAT007,
+"CourseSubject": Algebra I,
+}
+{
+"CourseID": MAT111,
+"CourseSubject": Algebra II,
+}
+{
+"CourseID": MAT210,
+"CourseSubject": Applied Linear Algebra,
+}
+{
+"CourseID": MAT141,
+"CourseSubject": Cal/Anal Geo I,
+}
+{
+"CourseID": MAT142,
+"CourseSubject": Cal/Anal Geo II,
+}
+{
+"CourseID": MAT203,
+"CourseSubject": Cal/Anal Geo III,
+}
+{
+"CourseID": MAT131,
+"CourseSubject": Cal/Non-Sci Maj,
+}
+{
+"CourseID": MAT107,
+"CourseSubject": Computer Mathematics Concepts,
+}
+{
+"CourseID": MAT001,
+"CourseSubject": Dev Math Skills,
+}
+{
+"CourseID": MAT204,
+"CourseSubject": Differential Equations,
+}
+{
+"CourseID": MAT205,
+"CourseSubject": Discrete Mathematics,
+}
+{
+"CourseID": MAT121,
+"CourseSubject": Finite Mathematics,
+}
+{
+"CourseID": MAT124,
+"CourseSubject": Fundamentals of Precalculus I,
+}
+{
+"CourseID": MAT125,
+"CourseSubject": Fundamentals of Precalculus II,
+}
+{
+"CourseID": MAT009,
+"CourseSubject": Mathematical Literacy,
+}
+{
+"CourseID": MAT106,
+"CourseSubject": Mathematics for Health Science,
+}
+{
+"CourseID": MAT006,
+"CourseSubject": Pre-Algebra and Algebra I,
+}
+{
+"CourseID": MAT126,
+"CourseSubject": Precalculus Mathematics,
+}
+{
+"CourseID": MAT101,
+"CourseSubject": SUR MATH REAS,
+}
+{
+"CourseID": MAT198,
+"CourseSubject": Special Topics: Mathematics,
+}
+{
+"CourseID": MAT103,
+"CourseSubject": Statistics I,
+}
+{
+"CourseID": MAT104,
+"CourseSubject": Statistics II,
+}
+{
+"CourseID": MAT112,
+"CourseSubject": Technical Mathematics I,
+},
+]
+}

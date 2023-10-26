@@ -1,6 +1,6 @@
 package model;
 
-import java.lang.reflect.Array;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Stream;
-public class Instructor {
-	
+
+import model.IO.GenericReader;
+import model.IO.SVReader;
+public class Instructor implements Serializable{
+	private static final long serialVersionUID = -8265275038000714197L;
 	public static class InstructorFactory{
 		private final static TreeMap<String,Instructor> byName = new TreeMap<>();
 		/**
@@ -24,17 +27,22 @@ public class Instructor {
 				byName.put(name, new Instructor(name));
 			return byName.get(name);
 		}
-		public static Instructor getInstance(Parser<Instructor> parser, List<String> strings) {
+		public static Instructor getInstance(GenericReader<Instructor> parser, List<String> strings) {
 			Instructor ints = new Instructor(parser,strings);
 			if (byName.containsKey(ints.name))
 				return byName.get(ints.name);
 			byName.put(ints.name, ints);
 			return ints;
 		}
-		public static Instructor getInstance(Parser<Instructor> parser, String string) {
+		public static Instructor getInstance(SVReader<Instructor> parser, String string) {
 			ArrayList<String> strings = new ArrayList<>();
 			strings.add(string);
 			return getInstance(parser,strings);
+		}
+		public static Stream<Instructor> getStream(){
+			List<Instructor> list = new LinkedList<>();
+			byName.entrySet().forEach((i)->{list.add(i.getValue());});
+			return list.stream();
 		}
 	}
 	
@@ -42,6 +50,11 @@ public class Instructor {
 		public static final Rank parse(String str) throws IllegalArgumentException{
 			if (str.equals("A1")) return A1; else if (str.equals("A2")) return A2; else if (str.equals("A3")) return A3;
 			else throw new IllegalArgumentException("Malformed string for parsing into ranking. String: " + str);
+		}};
+	private final static Comparator<Course> comp = new Comparator<>() {
+		@Override
+		public int compare(Course o1, Course o2) {
+			return Integer.compare(o1.hashCode(), o2.hashCode());
 		}};
 	private int ID;
 	private Campus home;
@@ -55,11 +68,6 @@ public class Instructor {
 	private Rank ranking;
 	private boolean online;
 	private Set<Campus> preferred;
-	private final static Comparator<Course> comp = new Comparator<>() {
-		@Override
-		public int compare(Course o1, Course o2) {
-			return Integer.compare(o1.hashCode(), o2.hashCode());
-		}};
 	private TreeMap<Course,Integer> weights;
 	private int courseCount;
 	private Availability<Section> avl;
@@ -77,7 +85,7 @@ public class Instructor {
 		weights = new TreeMap<>(comp);
 		avl = new Availability<>();
 	}
-	private Instructor(Parser<Instructor> parser, List<String> strings) {
+	private Instructor(GenericReader<Instructor> parser, List<String> strings) {
 		courses = new HashSet<>();
 		preferred = new HashSet<>();
 		sections = new HashSet<>();

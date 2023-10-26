@@ -1,6 +1,9 @@
-package chrono;
+package model.chrono;
 
-public class TimeStamp implements Comparable<TimeStamp>{
+import java.io.Serializable;
+
+public class TimeStamp implements Comparable<TimeStamp>, Serializable{
+	private static final long serialVersionUID = 2299044852274293148L;
 	private final int total = 60*24;
 	private int hour;
 	private int min;

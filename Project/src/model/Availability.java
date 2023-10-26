@@ -1,10 +1,12 @@
 package model;
+import java.io.Serializable;
 import java.util.TreeMap;
 
-import chrono.TimeSchedule;
-import chrono.TimeStamp;
+import model.chrono.TimeSchedule;
+import model.chrono.TimeStamp;
 
-public class Availability<K> {
+public class Availability<K> implements Serializable{
+	private static final long serialVersionUID = 2364232955575274264L;
 	private TreeMap<Day,TimeSchedule<K>> map;
 	public Availability() {
 		map = new TreeMap<>();

@@ -46,10 +46,8 @@ public class AssignmentController {
 	private Section currSec;
 	private Instructor currInst;
 	
-	private List<Instructor> originalInstructor;
 	private List<Instructor> observedInstructor = new LinkedList<>();
 	private ObservableList<Instructor> listInstructor = FXCollections.observableList(observedInstructor);
-	private List<Section> originalSection;
 	private List<Section> observedSection = new LinkedList<>();
 	private ObservableList<Section> listSection = FXCollections.observableList(observedSection);
 	
@@ -58,13 +56,11 @@ public class AssignmentController {
 	private Parent root;
 	private Stage stage;
 	private Scene scene;
-	public void setInstance(Parent root,Stage stage, Scene scene,Collection<Instructor> ints,Collection<Section> sec) {
+	public void setInstance(Parent root,Stage stage, Scene scene) {
 		this.root = root;
 		this.stage = stage;
 		this.scene = scene;
 		hbox.getChildren().remove(1);
-		this.originalInstructor = ints.stream().toList();
-		this.originalSection = sec.stream().toList();
 		this.currSec = null;
 		this.currInst = null;
 		instructor.setCellFactory(new Callback<ListView<Instructor>,ListCell<Instructor>>(){
@@ -87,8 +83,7 @@ public class AssignmentController {
 						hbox.getChildren().remove(0);
 						hbox.getChildren().add(0,section);
 						observedSection.clear();
-						observedSection.addAll(originalSection);
-						listSection.setAll(observedSection.stream()
+						listSection.setAll(Section.SectionFactory.getStream()
 								.filter((Section s)->{
 									return cell.getItem().getCourses().contains(s.getCourse());
 								}).toList());
@@ -134,7 +129,7 @@ public class AssignmentController {
 			hbox.getChildren().add(0,instructor);
 		}
 		observedInstructor.clear();
-		observedInstructor.addAll(originalInstructor);
+		observedInstructor.addAll(Instructor.InstructorFactory.getStream().toList());
 		listInstructor.setAll(observedInstructor.stream()
 				.filter((Instructor i)->{
 					try {
