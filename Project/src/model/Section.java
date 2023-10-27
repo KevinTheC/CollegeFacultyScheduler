@@ -1,16 +1,18 @@
 package model;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 import model.IO.GenericReader;
 import model.chrono.TimeStamp;
 
-public class Section {
+public class Section implements Externalizable{
 	public static final Section empty = new Section();
 	public static class SectionFactory{
 		private final static HashMap<Integer,Section> set = new HashMap<>();
@@ -43,7 +45,7 @@ public class Section {
 	private List<Day> days;
 	private TimeStamp begin;
 	private TimeStamp end;
-	private Section() {
+	public Section() {
 		crn = -1;
 		shell = Course.empty;
 	}
@@ -108,5 +110,27 @@ public class Section {
 	}
 	public int hashCode() {
 		return crn * 31 + shell.hashCode();
+	}
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeInt(crn);
+		out.writeObject(shell);
+		out.writeObject(partOfTerm);
+		out.writeObject(campus);
+		out.writeBoolean(inPerson);
+		out.writeObject(days);
+		out.writeObject(begin);
+		out.writeObject(end);
+	}
+	@Override
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		crn = in.readInt();
+		shell = (Course)in.readObject();
+		partOfTerm = (Part)in.readObject();
+		campus = (Campus)in.readObject();
+		inPerson = in.readBoolean();
+		days = (List<Day>)in.readObject();
+		begin = (TimeStamp)in.readObject();
+		end = (TimeStamp)in.readObject();
 	}
 }

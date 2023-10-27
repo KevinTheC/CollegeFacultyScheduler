@@ -70,6 +70,7 @@ public class Course implements Externalizable{
 	}
 	private String courseID;
 	private String courseSubject;
+	public Course() {}
 	private Course(String ID, String sub) {
 		courseID = ID;
 		courseSubject = sub;

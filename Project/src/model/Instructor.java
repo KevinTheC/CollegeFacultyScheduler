@@ -1,5 +1,9 @@
 package model;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,7 +16,7 @@ import java.util.stream.Stream;
 
 import model.IO.GenericReader;
 import model.IO.SVReader;
-public class Instructor implements Serializable{
+public class Instructor implements Externalizable{
 	private static final long serialVersionUID = -8265275038000714197L;
 	public static class InstructorFactory{
 		private final static TreeMap<String,Instructor> byName = new TreeMap<>();
@@ -46,16 +50,18 @@ public class Instructor implements Serializable{
 		}
 	}
 	
-	public enum Rank implements Comparable<Rank>{A3,A2,A1;
+	public static enum Rank implements Comparable<Rank>{A3,A2,A1;
 		public static final Rank parse(String str) throws IllegalArgumentException{
 			if (str.equals("A1")) return A1; else if (str.equals("A2")) return A2; else if (str.equals("A3")) return A3;
 			else throw new IllegalArgumentException("Malformed string for parsing into ranking. String: " + str);
 		}};
-	private final static Comparator<Course> comp = new Comparator<>() {
+	private static class MyComparator implements Comparator<Course>, Serializable{
+		private static final long serialVersionUID = 5480471523903517484L;
 		@Override
 		public int compare(Course o1, Course o2) {
 			return Integer.compare(o1.hashCode(), o2.hashCode());
-		}};
+		}
+	}
 	private int ID;
 	private Campus home;
 	private String cell;
@@ -72,8 +78,9 @@ public class Instructor implements Serializable{
 	private int courseCount;
 	private Availability<Section> avl;
 	/**
-	 * Lazy Constructor, defaults all values to null
+	 * Exists because of externalizable implementation
 	 */
+	public Instructor() {}
 	private Instructor(String name) {
 		this.name = name;
 		this.ID = -1;
@@ -82,14 +89,14 @@ public class Instructor implements Serializable{
 		courses = new HashSet<>();
 		preferred = new HashSet<>();
 		sections = new HashSet<>();
-		weights = new TreeMap<>(comp);
+		weights = new TreeMap<>(new MyComparator());
 		avl = new Availability<>();
 	}
 	private Instructor(GenericReader<Instructor> parser, List<String> strings) {
 		courses = new HashSet<>();
 		preferred = new HashSet<>();
 		sections = new HashSet<>();
-		weights = new TreeMap<>(comp);
+		weights = new TreeMap<>(new MyComparator());
 		avl = new Availability<>();
 		parser.apply(this,strings);
 	}
@@ -185,5 +192,28 @@ public class Instructor implements Serializable{
 	}
 	public Stream<Section> getSections(){
 		return sections.stream();
+	}
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeInt(ID);
+		out.writeObject(home);
+		String[] arr = {cell,name,homePhone,address,hireDate};
+		for (String str : arr)
+			if (str==null)
+				out.writeUTF("");
+			else
+				out.writeUTF(str);
+		out.writeObject(courses);
+		out.writeObject(sections);
+		out.writeObject(ranking);
+		out.writeBoolean(online);
+		out.writeObject(preferred);
+		out.writeObject(weights);
+		out.writeInt(courseCount);
+		out.writeObject(avl);
+	}
+	@Override
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		
 	}
 }

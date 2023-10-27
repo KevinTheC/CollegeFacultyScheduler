@@ -19,12 +19,16 @@ import model.IO.SCCC.InstructorParser;
 import model.IO.SCCC.SCCCImports;
 import model.IO.SCCC.SectionParser;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
 import java.lang.*;
@@ -43,8 +47,11 @@ public class Main extends Application{
 		SCCCImports.importWeights(new File("src/Q1/Instructor_Recent_Courses.csv"));
 		FXMLLoader loader = new FXMLLoader(new File("src/view/Main.fxml").toURI().toURL());
 		Parent root = loader.load();
-		Scene scene = new Scene(root,820,670);
+		Pane pane = new Pane();
+		pane.getChildren().add(root);
+		Scene scene = new Scene(pane,800,600);
 		stage.setScene(scene);
+		stage.setMaximized(true);
 		Controller c = loader.getController();
 		c.setInstance(root,stage,scene);
 		stage.setTitle("Program");
@@ -54,7 +61,6 @@ public class Main extends Application{
 			save("src/Q1/Section.dat",Section.SectionFactory.getStream());
 			save("src/Q1/Instructor.dat",Instructor.InstructorFactory.getStream());
 		});
-		
 	}
 	public static <K> void save(String filename, Stream<K> stream) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(filename)))){
