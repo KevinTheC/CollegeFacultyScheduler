@@ -16,7 +16,7 @@ import model.IO.SCCC.SCCCImports;
 public class TestClass {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
-		try (MyObjectInputStream ois = new MyObjectInputStream(new FileInputStream(new File("src/Q1/Course.dat")))){
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("src/Q1/Course.dat")))){
 			ois.readObject();
 		} catch (IOException e) {}
 	}

@@ -18,7 +18,8 @@
 	-fx-border-radius: 15px;
 	-fx-border-width: 4px;
 	-fx-border-color: #c4b278;
-	-fx-border-insets: 10px;
+	-fx-border-insets: 15px;
+	-fx-color: black;
 	-fx-background-color: #c4b278;
 	-fx-background-radius: 15px;
 	-fx-background-insets: 10px;
@@ -30,6 +31,10 @@
 .containerLayer3{
 	-fx-background-color: white;
 	-fx-background-radius: 5px;
+}
+.lightBeigeArea{
+	-fx-background-color: #fae9b6;
+	-fx-background-radius: 10px;
 }
 .beigeTextArea{
 	-fx-background-color: #f2da94;
@@ -48,7 +53,21 @@
 }
 .beigeButton{
 	-fx-color: #f2da94;
-	-fx-background-color: transparent;
+	-fx-background-color: #cfbb7e;
+	-fx-border-color: #c4b278;
+	-fx-border-radius: 5px;
+	-fx-border-width: 3px;
+}
+.beigeTab{
+	-fx-color: #f2da94;
+	-fx-background-color: #ccba83;
+	-fx-border-color: #c4b278;
+	-fx-border-radius: 5px;
+	-fx-border-width: 3px;
+}
+.beigeTabClicked{
+	-fx-color: #f2da94;
+	-fx-background-color: #c4b278;
 	-fx-border-color: #c4b278;
 	-fx-border-radius: 5px;
 	-fx-border-width: 3px;

@@ -15,10 +15,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import model.Course;
 import model.Instructor;
 @SuppressWarnings("unused")
 public class InstructorController {
@@ -48,6 +51,10 @@ public class InstructorController {
 	private Text instCourses;
 	@FXML
 	private Text instCount;
+	
+	@FXML
+	private TextField searchTextField;
+	
 	private Parent root;
 	private Stage stage;
 	private Scene scene;
@@ -76,6 +83,7 @@ public class InstructorController {
 					if (cell.getItem()!=null) {
 						aController.refresh(cell.getItem().getAvailability());
 						instructorInfo(cell.getItem());
+						System.out.println(cell.getItem());
 					}});
 				return cell;
 			}});
@@ -89,32 +97,29 @@ public class InstructorController {
 			aController.setInstance(aRoot, stage, scene);
 		} catch (IOException e) {}
 	}
-	//helper methods (string and node parsing)
 	public void instructorInfo(Instructor in) {
-		String[] arr = in.toString()
-				.substring(0,in.toString().indexOf("Availability"))
-				.split("[\\[\\]]");
-		int[] idxs = {1,3,5,7};
-		ArrayList<String[]> list = new ArrayList<>();
-		for (int i : idxs)
-			list.add(arr[i].split(", (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"));
-		Text[] texts = new Text[] {instID,instCell,instHPhone,instName,instAddress,instHire,instRanking,instHome,instCount};
-		for (int i=0;i<list.get(0).length;i++) {
-			texts[i].setText(list.get(0)[i].split(": ")[1].replace("\"", ""));
-		}
-		for (int i=0;i<list.get(1).length;i++) {
-			texts[i+5].setText(list.get(1)[i].split(": ")[1].replace("\"", ""));
-		}
-		instOnline.setText(list.get(2)[0]);
+		instID.setText(in.getID()+"");
+		instCell.setText(in.getCell());
+		instHPhone.setText(in.getHomePhone());
+		instName.setText(in.getName());
+		instAddress.setText(in.getAddress());
+		instHire.setText(in.getHireDate());
+		instRanking.setText(in.getRank().name());
+		instHome.setText(in.getHomeCampus().name());
+		instCount.setText(in.getCourseCount()+"");
+		instOnline.setText((in.getOnline()) ? "Yes": "No");
 		StringBuilder sb = new StringBuilder();
-		for (int i=0;i<list.get(3).length;i++) {
-			sb.append(list.get(3)[i].split(",")[0]+" ");
+		int i = 0;
+		for (Course crs : in.getCourses()) {
+			sb.append(crs.toString().split(",")[0]+" ");
 			if (i%5==0&&i!=0)
 				sb.append('\n');
+			i++;
 		}
 		instCourses.setText(sb.toString());
 	}
-	public void refresh(String str) {
+	public void refresh(KeyEvent e) {
+		String str = searchTextField.getText();
 		observedInstructor.clear();
 		observedInstructor.addAll(Instructor.InstructorFactory.getStream().toList());
 		listInstructor.setAll(observedInstructor.stream()

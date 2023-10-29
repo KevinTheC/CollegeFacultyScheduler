@@ -27,4 +27,7 @@ public class TimeRange<K>{
 	public static <K> void merge(TimeRange<K> t1, TimeRange<K> t2) {
 		t1.setEnd(t2.getEnd());
 	}
+	public String toString() {
+		return "["+((type==null) ? type : type.toString())+": "+begin+" -> "+end+"]";
+	}
 }

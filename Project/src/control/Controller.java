@@ -12,96 +12,85 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Instructor;
 import model.Section;
 @SuppressWarnings("unused")
 public class Controller {
 	@FXML
-	private TextField searchTextField;
-	@FXML
 	private HBox hbox1;
 	@FXML
 	private Text titleText;
 	@FXML
-	private StackPane stack;
+	private VBox anchor;
 	@FXML
-	private Button switcher;
+	private Button instructorTab;
+	@FXML
+	private Button sectionTab;
+	@FXML
+	private Button assignmentTab;
+	@FXML
+	private Button dataTab;
 	
-	private InstructorController iC;
-	private SectionController sC;
-	private AssignmentController aC;
-	private Mode mode;
+	
+	private Button[] buttons;
 	private Parent root;
 	private Stage stage;
 	private Scene scene;
-	private enum Mode{
-		InstructorView,
-		SectionView,
-		AssignmentView;
-		private final static Mode rotate(Mode old) {
-			if (old == Mode.values()[Mode.values().length-1])
-				return Mode.values()[0];
-			return Mode.values()[1+old.ordinal()];
-		}
-	}
 	
 	public void setInstance(Parent root,Stage stage, Scene scene) {
-		mode = Mode.AssignmentView;
 		this.root = root;
 		this.stage = stage;
 		this.scene = scene;
+		buttons = new Button[4];
+		buttons[0] = instructorTab;
+		buttons[1] = sectionTab;
+		buttons[2] = assignmentTab;
+		buttons[3] = dataTab;
+	}
+	public void onAction(ActionEvent event) {
+		for (Button b : buttons) {
+			b.getStyleClass().removeIf((code)->{return code.contains("beige");});
+			b.getStyleClass().add("beigeTab");
+		}
+		((Button)event.getSource()).getStyleClass().remove(((Button)event.getSource()).getStyleClass().size()-1);
+		((Button)event.getSource()).getStyleClass().add("beigeTabClicked");
+		anchor.getChildren().clear();
 		FXMLLoader loader;
-		try {
-			loader = new FXMLLoader(new File("src/view/InstructorView.fxml").toURI().toURL());
-			Parent aRoot = loader.load();
-			stack.getChildren().add(aRoot);
-			iC = loader.getController();
-			iC.setInstance(aRoot, stage, scene);
-		} catch (IOException e) {}
-		try {
-			loader = new FXMLLoader(new File("src/view/SectionView.fxml").toURI().toURL());
-			Parent aRoot = loader.load();
-			stack.getChildren().add(aRoot);
-			sC = loader.getController();
-			sC.setInstance(aRoot, stage, scene);
-		} catch (IOException e) {}
-		try {
-			loader = new FXMLLoader(new File("src/view/AssignmentView.fxml").toURI().toURL());
-			Parent aRoot = loader.load();
-			stack.getChildren().add(aRoot);
-			aC = loader.getController();
-			aC.setInstance(aRoot, stage, scene);
-		} catch (IOException e) {}
-	}
-	public void onAction(ActionEvent e) {
-		stack.getChildren().add(stack.getChildren().remove(0));
-		if (mode == Mode.InstructorView) {
-			keyRelease(null);
+		if (event.getSource()==instructorTab) {
+			try {
+				loader = new FXMLLoader(new File("src/view/InstructorView.fxml").toURI().toURL());
+				Parent aRoot = loader.load();
+				anchor.getChildren().add(aRoot);
+				InstructorController iC = loader.getController();
+				iC.setInstance(aRoot, stage, scene);
+			} catch (IOException e) {}
+		} else if (event.getSource()==sectionTab) {
+			try {
+				loader = new FXMLLoader(new File("src/view/SectionView.fxml").toURI().toURL());
+				Parent aRoot = loader.load();
+				anchor.getChildren().add(aRoot);
+				SectionController sC = loader.getController();
+				sC.setInstance(aRoot, stage, scene);
+			} catch (IOException e) {}
+		} else if (event.getSource()==assignmentTab) {
+			try {
+				loader = new FXMLLoader(new File("src/view/AssignmentView.fxml").toURI().toURL());
+				Parent aRoot = loader.load();
+				anchor.getChildren().add(aRoot);
+				AssignmentController aC = loader.getController();
+				aC.setInstance(aRoot, stage, scene);
+			} catch (IOException e) {}
 		}
-		else if (mode == Mode.SectionView){
-			titleText.setText("Type a section name");
-			keyRelease(null);
-		} else {
-			titleText.setText("Type an ID or name");
-			keyRelease(null);
-		}
-		mode = Mode.rotate(mode);
-	}
-	//handlers
-	public void keyRelease(KeyEvent e) {
-		if (mode == Mode.InstructorView)
-			iC.refresh(searchTextField.getText());
-		else if (mode == Mode.SectionView)
-			sC.refresh(searchTextField.getText());
-		else
-			aC.refresh(searchTextField.getText());
 	}
 }

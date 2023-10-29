@@ -58,6 +58,11 @@ public class TimeStamp implements Comparable<TimeStamp>, Serializable{
 	public String toString() {
 		return pad(hour)+":"+pad(min);
 	}
+	public String toString(boolean military) {
+		if (military)
+			return toString();
+		return (hour>12)?(pad(hour-12)+":"+pad(min)+"PM"):(pad(hour)+":"+pad(min)+"AM");
+	}
 	private String pad(int i) {
 		if (i<10)
 			return "0"+i;
@@ -69,7 +74,7 @@ public class TimeStamp implements Comparable<TimeStamp>, Serializable{
 	public static TimeStamp parseTimeStamp(String str) {
 		String[] arr = str.split(":");
 		if (str.charAt(str.length()-2)=='P'&&!((str.charAt(1)=='2')&&(str.charAt(0)=='1')))
-			return new TimeStamp(Integer.parseInt(arr[0])*2,Integer.parseInt(arr[1].substring(0,2)));
+			return new TimeStamp(Integer.parseInt(arr[0])+12,Integer.parseInt(arr[1].substring(0,2)));
 		return new TimeStamp(Integer.parseInt(arr[0]),Integer.parseInt(arr[1].substring(0,2)));
 	}
 }

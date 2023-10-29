@@ -47,9 +47,7 @@ public class Main extends Application{
 		SCCCImports.importWeights(new File("src/Q1/Instructor_Recent_Courses.csv"));
 		FXMLLoader loader = new FXMLLoader(new File("src/view/Main.fxml").toURI().toURL());
 		Parent root = loader.load();
-		Pane pane = new Pane();
-		pane.getChildren().add(root);
-		Scene scene = new Scene(pane,800,600);
+		Scene scene = new Scene(root,800,600);
 		stage.setScene(scene);
 		stage.setMaximized(true);
 		Controller c = loader.getController();
