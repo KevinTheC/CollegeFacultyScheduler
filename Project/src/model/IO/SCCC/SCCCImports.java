@@ -95,7 +95,7 @@ public class SCCCImports {
 			SCCCImports.importCourses(new File("src/data/CourseInformation.csv"));
 			SCCCImports.importSections(new File("src/data/CourseInformation.csv"));
 			SCCCImports.importInstructors(new File("src/data/InstructorsV2.csv"));
-			//SCCCImports.importWeights(new File("src/data/Instructor_Recent_Courses.csv"));
+			SCCCImports.importWeights(new File("src/data/InstructorFrequencyV3.csv"));
 			return;
 		}
 		load("src/data/Courses.dat");

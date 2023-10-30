@@ -60,19 +60,24 @@ public class TimeSchedule <K> implements Serializable{
 	public boolean remove(K type, TimeStamp begin, TimeStamp end) {
 		if (!(range.contains(new Triple<K,Boolean,TimeStamp>(type,true,begin))&&range.contains(new Triple<K,Boolean,TimeStamp>(type,false,end))))
 			return false;
+		K newtype = null;
 		var itr = range.listIterator();
 		while (itr.hasNext()) {
 			Triple<K,Boolean,TimeStamp> tri = itr.next();
 			if (Objects.equals(tri.k,type)&&Objects.equals(tri.t,begin)) {
-				tri.k = null;
 				itr.previous();
+				itr.previous();
+				newtype = current(itr).k;
+				tri.k = newtype;
+				itr.next();
+				itr.next();
 				break;
 			}
 		}
 		while (itr.hasNext()) {
 			Triple<K,Boolean,TimeStamp> tri = itr.next();
 			if (Objects.equals(tri.k,type)&&Objects.equals(tri.t,end)) {
-				tri.k = null;
+				tri.k = newtype;
 				break;
 			}
 		}

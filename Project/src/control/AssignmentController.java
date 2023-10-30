@@ -21,6 +21,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -46,6 +48,9 @@ public class AssignmentController {
 	private TextField searchTextField;
 	@FXML
 	private Button addDrop;
+	@FXML
+	private VBox legend;
+	
 	
 	private Section currSec;
 	private Instructor currInst;
@@ -54,6 +59,7 @@ public class AssignmentController {
 		Section;
 	}
 	private Mode mode;
+	
 	
 	private List<Instructor> observedInstructor = new LinkedList<>();
 	private ObservableList<Instructor> listInstructor = FXCollections.observableList(observedInstructor);
@@ -89,7 +95,7 @@ public class AssignmentController {
 				cell.setOnMouseClicked(e->{
 					if (cell.getItem()!=null) {
 						currInst = cell.getItem();
-						instructorAVLController.refresh(cell.getItem().getAvailability());
+						refreshAVL(cell.getItem());
 						mode = Mode.Section;
 						addDrop.setText("");
 						searchTextField.setText("");
@@ -107,10 +113,9 @@ public class AssignmentController {
 					protected void updateItem(Section item, boolean empty) {
 						super.updateItem(item, empty);
 						if (!empty || item != null)
-							setText(item.getCourse().toString().split("[,]")[0] + " " + item.getBegin() + " " + item.getEnd());
+							setText(item.getCourse().toString().split("[,]")[0] + " " + ((item.getBegin()!=null)?item.getBegin():"Online") + " " + ((item.getEnd()!=null)?item.getEnd():""));
 						else
 							setText("");
-						if (currInst!=null&&currInst.getSections().toList().contains(item)) this.getStyleClass().add("specialCell");
 					}
 				};
 				cell.setOnMouseClicked(e->{
@@ -167,7 +172,9 @@ public class AssignmentController {
 					.filter((Section s)->{
 						return currInst.getCourses().contains(s.getCourse());
 					})
-					.filter((Section s)->{return !currInst.getSections().toList().contains(s);})
+					.filter((Section s)->{
+						
+						return !currInst.getSections().toList().contains(s);})
 					.filter((Section s)->{
 						if (s.getBegin()==null)
 							return true;
@@ -175,11 +182,12 @@ public class AssignmentController {
 						TimeRange<Section> t = new TimeRange<>(s,s.getBegin(),s.getEnd());
 						for (Day d : s.getDays()) {
 							if (avl.getSchedule(d).toRanges().stream()
-									.filter((TimeRange range)->{return range.getType()==Section.empty;})
+									.filter((TimeRange range)->{return Section.empty.equals(range.getType());})
 									.filter((TimeRange range)->{
 											return (t.getBegin().compareTo(range.getBegin())>-1&&t.getEnd().compareTo(range.getEnd())<1);
-										}).count()==0)
-							return false;
+										}).count()==0) {
+								return false;
+							}
 							}
 						return true;
 					}).toList());
@@ -197,13 +205,28 @@ public class AssignmentController {
 		unlock(null);
 	}
 	public void unlock(ActionEvent e) {
-		searchTextField.setText("");
 		currInst = null;
 		currSec = null;
+		searchTextField.setText("");
 		addDrop.setText("");
-		listSection.clear();
-		sectionAVLController.refresh(new Availability<Section>());
 		text.setText("Search for Instructors");
+		legend.getChildren().clear();
 		mode = Mode.Instructor;
+	}
+	public void refreshAVL(Instructor in) {
+		legend.getChildren().clear();
+		instructorAVLController.refresh(in.getAvailability());
+		List<Section> sec = in.getSections().toList();
+		Color[] colors = {Color.BLACK,Color.GREEN,Color.YELLOW,Color.BROWN};
+		for (int i=0;i<sec.size();i++) {
+			legend.getChildren().add(new Leg(colors[i],sec.get(i)));
+		}
+	}
+	public class Leg extends HBox{
+		private Leg(Color c,Section s){
+			super();
+			getChildren().add(new Rectangle(5,5,c));
+			getChildren().add(new Text(s.getCourse().toString()));
+		}
 	}
 }

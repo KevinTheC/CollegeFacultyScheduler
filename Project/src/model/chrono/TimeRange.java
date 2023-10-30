@@ -1,6 +1,12 @@
 package model.chrono;
 
-public class TimeRange<K>{
+import java.io.Serializable;
+
+public class TimeRange<K> implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4553750932791353714L;
 	private TimeStamp begin;
 	private TimeStamp end;
 	private K type;
