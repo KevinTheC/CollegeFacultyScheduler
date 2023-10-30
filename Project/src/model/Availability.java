@@ -44,4 +44,7 @@ public class Availability<K> implements Serializable{
 	public String toString() {
 		return map.toString();
 	}
+	public TimeSchedule<K> getSchedule(Day d){
+		return map.get(d);
+	}
 }

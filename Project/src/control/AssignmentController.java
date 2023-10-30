@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,35 +17,43 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import model.Availability;
+import model.Day;
 import model.Instructor;
 import model.Section;
+import model.IO.SCCC.SCCCImports;
+import model.chrono.TimeRange;
 
 public class AssignmentController {
-	
 	@FXML
-	private VBox vbox;
+	private Text text;
 	@FXML
-	private HBox hbox;
+	private HBox hboxInstructor;
+	@FXML
+	private HBox hboxSection;
 	@FXML
 	private ListView<Instructor> instructor;
 	@FXML
 	private ListView<Section> section;
 	@FXML
-	private Text sectionName;
+	private TextField searchTextField;
 	@FXML
-	private Button remove;
-	@FXML
-	private Button add;
-	@FXML
-	private Button clear;
+	private Button addDrop;
 	
 	private Section currSec;
 	private Instructor currInst;
+	private enum Mode {
+		Instructor,
+		Section;
+	}
+	private Mode mode;
 	
 	private List<Instructor> observedInstructor = new LinkedList<>();
 	private ObservableList<Instructor> listInstructor = FXCollections.observableList(observedInstructor);
@@ -52,15 +61,16 @@ public class AssignmentController {
 	private ObservableList<Section> listSection = FXCollections.observableList(observedSection);
 	
 	
-	private AvailabilityController aController;
+	private AvailabilityController instructorAVLController;
+	private AvailabilityController sectionAVLController;
 	private Parent root;
 	private Stage stage;
 	private Scene scene;
 	public void setInstance(Parent root,Stage stage, Scene scene) {
+		mode = Mode.Instructor;
 		this.root = root;
 		this.stage = stage;
 		this.scene = scene;
-		hbox.getChildren().remove(1);
 		this.currSec = null;
 		this.currInst = null;
 		instructor.setCellFactory(new Callback<ListView<Instructor>,ListCell<Instructor>>(){
@@ -79,14 +89,13 @@ public class AssignmentController {
 				cell.setOnMouseClicked(e->{
 					if (cell.getItem()!=null) {
 						currInst = cell.getItem();
-						aController.refresh(cell.getItem().getAvailability());
-						hbox.getChildren().remove(0);
-						hbox.getChildren().add(0,section);
-						observedSection.clear();
-						listSection.setAll(Section.SectionFactory.getStream()
-								.filter((Section s)->{
-									return cell.getItem().getCourses().contains(s.getCourse());
-								}).toList());
+						instructorAVLController.refresh(cell.getItem().getAvailability());
+						mode = Mode.Section;
+						addDrop.setText("");
+						searchTextField.setText("");
+						text.setText("Search for a section");
+						currSec = null;
+						refresh(null);
 					}});
 				return cell;
 			}});
@@ -98,14 +107,24 @@ public class AssignmentController {
 					protected void updateItem(Section item, boolean empty) {
 						super.updateItem(item, empty);
 						if (!empty || item != null)
-							setText(item.getCourse().toString() + " " + item.getBegin() + " " + item.getEnd());
+							setText(item.getCourse().toString().split("[,]")[0] + " " + item.getBegin() + " " + item.getEnd());
 						else
 							setText("");
+						if (currInst!=null&&currInst.getSections().toList().contains(item)) this.getStyleClass().add("specialCell");
 					}
 				};
 				cell.setOnMouseClicked(e->{
 					currSec = cell.getItem();
-					sectionName.setText(currSec.toString());
+					Availability<Section> a = new Availability<>();
+					Day[] days = new Day[currSec.getDays().size()];
+					for (int i=0;i<currSec.getDays().size();i++)
+						days[i] = currSec.getDays().get(i);
+					a.put(currSec, currSec.getBegin(), currSec.getEnd(), days);
+					sectionAVLController.refresh(a);
+					if (currInst.getSections().toList().contains(currSec))
+						addDrop.setText("Drop");
+					else
+						addDrop.setText("Add");
 					});
 				return cell;
 			}});
@@ -115,42 +134,76 @@ public class AssignmentController {
 		try {
 			loader = new FXMLLoader(new File("src/view/Availability.fxml").toURI().toURL());
 			Parent aRoot = loader.load();
-			vbox.getChildren().add(0,aRoot);
-			aController = loader.getController();
-			aController.setInstance(aRoot, stage, scene);
+			hboxInstructor.getChildren().add(aRoot);
+			instructorAVLController = loader.getController();
+			instructorAVLController.setInstance(aRoot, stage, scene);
+		} catch (IOException e) {}
+		try {
+			loader = new FXMLLoader(new File("src/view/Availability.fxml").toURI().toURL());
+			Parent aRoot = loader.load();
+			hboxSection.getChildren().add(1,aRoot);
+			sectionAVLController = loader.getController();
+			sectionAVLController.setInstance(aRoot, stage, scene);
 		} catch (IOException e) {}
 	}
-	public void refresh(String str) {
-		sectionName.setText("");
-		currSec = null;
-		currInst = null;
-		if (hbox.getChildren().get(0)!=instructor) {
-			hbox.getChildren().remove(0);
-			hbox.getChildren().add(0,instructor);
+	public void refresh(KeyEvent e) {
+		String str = searchTextField.getText();
+		if (mode == Mode.Instructor) {
+			listInstructor.setAll(Instructor.InstructorFactory.getStream()
+					.filter((Instructor i)->{
+						try {
+							Integer.parseInt(str);
+							return (i.getID()+"").contains(str);
+						} catch (NumberFormatException exception) {
+								return i.getName().toLowerCase()
+									.contains(str.toLowerCase());
+						}
+					}).toList());
+		} else {
+			listSection.clear();
+			listSection.addAll(currInst.getSections().toList());
+			if (currInst.getSections().toList().size()<currInst.getCourseCount())
+				listSection.addAll(Section.SectionFactory.getStream()
+					.filter((Section s)->{
+						return currInst.getCourses().contains(s.getCourse());
+					})
+					.filter((Section s)->{return !currInst.getSections().toList().contains(s);})
+					.filter((Section s)->{
+						if (s.getBegin()==null)
+							return true;
+						var avl = currInst.getAvailability();
+						TimeRange<Section> t = new TimeRange<>(s,s.getBegin(),s.getEnd());
+						for (Day d : s.getDays()) {
+							if (avl.getSchedule(d).toRanges().stream()
+									.filter((TimeRange range)->{return range.getType()==Section.empty;})
+									.filter((TimeRange range)->{
+											return (t.getBegin().compareTo(range.getBegin())>-1&&t.getEnd().compareTo(range.getEnd())<1);
+										}).count()==0)
+							return false;
+							}
+						return true;
+					}).toList());
 		}
-		observedInstructor.clear();
-		observedInstructor.addAll(Instructor.InstructorFactory.getStream().toList());
-		listInstructor.setAll(observedInstructor.stream()
-				.filter((Instructor i)->{
-					try {
-						Integer.parseInt(str);
-						return (i.getID()+"").contains(str);
-					} catch (NumberFormatException exception) {
-							return i.getName().toLowerCase()
-								.contains(str.toLowerCase());
-					}
-				}).toList());
 	}
-	public void add(ActionEvent e) {
-		currInst.addSection(currSec);
-		refresh("");
+	public void addDropAction(ActionEvent e) {
+		if (currInst==null||currSec==null)
+			return;
+		if (currInst.getSections().toList().contains(currSec)) {
+			currInst.removeSection(currSec);
+		} else {
+			currInst.addSection(currSec);
+		}
+		SCCCImports.save();
+		unlock(null);
 	}
-	public void remove(ActionEvent e) {
-		currInst.removeSection(currSec);
-		refresh("");
-	}
-	public void clear(ActionEvent e) {
-		currInst.getSections().forEach((Section src)->{currInst.removeSection(src);});
-		refresh("");
+	public void unlock(ActionEvent e) {
+		searchTextField.setText("");
+		currInst = null;
+		currSec = null;
+		addDrop.setText("");
+		listSection.clear();
+		sectionAVLController.refresh(new Availability<Section>());
+		text.setText("Search for Instructors");
+		mode = Mode.Instructor;
 	}
 }

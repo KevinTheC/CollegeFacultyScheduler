@@ -48,6 +48,11 @@
 	-fx-background-color: #ded4b1;
 	-fx-color: transparent;
 }
+.specialCell{
+	-fx-background-radius: 2px;
+	-fx-background-color: #ded4b1;
+	-fx-color: transparent;
+}
 .list .cell:empty{
 	-fx-background-color: transparent;
 }

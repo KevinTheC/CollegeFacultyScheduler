@@ -21,10 +21,12 @@ public class TimeSchedule <K> implements Serializable{
 		if (o.isEmpty()) return false;
 		var itr = o.get();
 		shiftTo(itr,itr.nextIndex()+1);
-		itr.add(new Triple<K,Boolean,TimeStamp>(null,false,begin));
+		K instance = current(itr).k;
+		itr.add(new Triple<K,Boolean,TimeStamp>(instance,false,begin));
 		itr.add(new Triple<K,Boolean,TimeStamp>(type,true,begin));
 		itr.add(new Triple<K,Boolean,TimeStamp>(type,false,end));
-		itr.add(new Triple<K,Boolean,TimeStamp>(null,true,end));
+		itr.add(new Triple<K,Boolean,TimeStamp>(instance,true,end));
+		cleanse();
 		cleanse();
 		return true;
 	}

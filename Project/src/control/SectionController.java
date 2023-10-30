@@ -100,8 +100,6 @@ public class SectionController {
 		Day[] days = new Day[sec.getDays().size()];
 		for (int i=0;i<sec.getDays().size();i++)
 			days[i] = sec.getDays().get(i);
-		System.out.println(sec.getBegin());
-		System.out.println(sec.getEnd());
 		a.put(sec, sec.getBegin(), sec.getEnd(), days);
 		aController.refresh(a);
 	}

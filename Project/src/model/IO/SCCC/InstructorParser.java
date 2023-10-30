@@ -25,25 +25,29 @@ public class InstructorParser extends SVReader<Instructor>{
 		bind(1,2,(str, ints)->{ints.setAddress(ints.getAddress()+" "+str);});
 		bind(2,0,(str,ints)->{ints.setHomePhone(str);});
 		bind(2,1,(str,ints)->{ints.setHireDate(str);});
-		bind(2,new int[] {2,3},(str,ints)->{
-			for (String string : str.split("[ ]"))
-				if (string.length()>1) {
-					if (string.charAt(string.length()-1)=='L') string = string.substring(0,string.length()-1);
-					Course crs = Course.CourseFactory.getInstance(string,null);
-					if (!ints.getCourses().contains(crs))
+		//changed
+		for (int i=2;i<=10;i++)
+			bind(i,new int[] {2,3},(str,ints)->{
+				if (str.contains("L")) {
+					Course crs = Course.CourseFactory.getInstance(str.trim().substring(0,str.trim().length()-1),null);
+					if (!ints.getCourses().contains(crs)&&!str.isEmpty())
+						ints.getCourses().add(crs);
+				}
+				else {
+					Course crs = Course.CourseFactory.getInstance(str.trim(),null);
+					if (!ints.getCourses().contains(crs)&&!str.isEmpty())
 						ints.getCourses().add(crs);
 				}
 			});
 		bind(3,0,(str,ints)->{ints.setRank(Rank.parse(str));});
 		bind(4,0,(str,ints)->{ints.setOnline(str.equals("Y"));});
-		bind(5,0,(str,ints)->{if (str.equals("")) return; 
+		bind(5,0,(str,ints)->{if (str.isEmpty()) return; 
 		for (String string : str.split("[ ]")) {
 			Campus c = Campus.parse(string.charAt(0));
 			if (!ints.getPreferences().contains(c))
 				ints.getPreferences().add(c);
 		}});
-		bind(6,new int[] {0,1},(str,ints)->{if (str.equals("Y")) ints.setCourseCount(ints.getCourseCount()+1);});
-		
+		bind(6,new int[] {0,1},(str,ints)->{if (ints.getCourseCount()==0) ints.setCourseCount(1); if (str.equals("Y")) ints.setCourseCount(ints.getCourseCount()+1);});
 		//for reusability
 		BiFunction<TimeRange<Course>,TimeRange<Course>,BiConsumer<String,Instructor>> avlParserGenerator = (tNormal,tAsterisk)->{return (str, ints)->{
 			TimeRange<Course> t = null;
@@ -72,19 +76,19 @@ public class InstructorParser extends SVReader<Instructor>{
 			}
 		};};
 		
-		bind(8,avlParserGenerator.apply(
+		bind(8,new int[] {0,1},avlParserGenerator.apply(
 				new TimeRange<Course>(Course.empty,new TimeStamp(8,0),new TimeStamp(12,0)),
 				new TimeRange<Course>(Course.empty,new TimeStamp(7,0),new TimeStamp(8,0))));
-		bind(9,avlParserGenerator.apply(
+		bind(9,new int[] {0,1},avlParserGenerator.apply(
 				new TimeRange<Course>(Course.empty,new TimeStamp(12,0),new TimeStamp(15,0)),
 				new TimeRange<Course>(Course.empty,new TimeStamp(15,0),new TimeStamp(16,0))));
-		bind(10,avlParserGenerator.apply(
-				new TimeRange<Course>(Course.empty,new TimeStamp(8,0),new TimeStamp(15,0)),null));
-		bind(11,avlParserGenerator.apply(new TimeRange<Course>(Course.empty,new TimeStamp(16,0),new TimeStamp(18,0)), null));
-		bind(12,avlParserGenerator.apply(new TimeRange<Course>(Course.empty,new TimeStamp(18,0),new TimeStamp(22,0)), null));
+		bind(10,new int[] {0,1},(str,ints)->{
+			if (str.contains("Sat"))
+				ints.getAvailability().put(Section.empty,new TimeStamp(8,0),new TimeStamp(15,0), Day.S);
+			else if (str.contains("Sun"))
+				ints.getAvailability().put(Section.empty,new TimeStamp(8,0),new TimeStamp(15,0), Day.U);
+		});
+		bind(11,new int[] {0,1},avlParserGenerator.apply(new TimeRange<Course>(Course.empty,new TimeStamp(16,0),new TimeStamp(18,0)), null));
+		bind(12,new int[] {0,1},avlParserGenerator.apply(new TimeRange<Course>(Course.empty,new TimeStamp(18,0),new TimeStamp(22,0)), null));
 	}
-	
-	//weight taught recently, match skill level through weighting
-	//seniors get full schedule, then juniors get scraps
-	//student id barcode
 }

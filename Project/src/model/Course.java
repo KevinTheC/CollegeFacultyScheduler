@@ -114,5 +114,7 @@ public class Course implements Externalizable{
 	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 		courseSubject = in.readUTF();
 		courseID = in.readUTF();
+		CourseFactory.courseID.put(courseID, this);
+		CourseFactory.subjects.put(courseSubject, this);
 	}
 }

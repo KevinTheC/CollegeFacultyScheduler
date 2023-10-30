@@ -44,7 +44,7 @@ public class AvailabilityController {
 		this.stage = stage;
 		this.scene = scene;
 		rects = new Rectangle[] {monday,tuesday,wednesday,thursday,friday,saturday,sunday};
-		colors = new Color[] {new Color(0.905882352941,0.415686274509,0.250980392156,1),Color.BLUE,Color.BLACK,Color.GREEN};
+		colors = new Color[] {new Color(0.905882352941,0.415686274509,0.250980392156,1),Color.BLUE,Color.BLACK,Color.GREEN,Color.YELLOW,Color.BROWN};
 	}
 	public void refresh(Availability<Section> avl) {
 		int min = 420;

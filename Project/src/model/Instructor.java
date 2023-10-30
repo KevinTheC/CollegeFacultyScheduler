@@ -19,23 +19,23 @@ import model.IO.SVReader;
 public class Instructor implements Externalizable{
 	private static final long serialVersionUID = -8265275038000714197L;
 	public static class InstructorFactory{
-		private final static TreeMap<String,Instructor> byName = new TreeMap<>();
+		private final static TreeMap<Integer,Instructor> byID = new TreeMap<>();
 		/**
 		 * 
 		 * @param ID
 		 * @param subject
 		 * @return
 		 */
-		public static Instructor getInstance(String name){
-			if (!byName.containsKey(name))
-				byName.put(name, new Instructor(name));
-			return byName.get(name);
+		public static Instructor getInstance(int id){
+			if (!byID.containsKey(id))
+				byID.put(id, new Instructor(id));
+			return byID.get(id);
 		}
 		public static Instructor getInstance(GenericReader<Instructor> parser, List<String> strings) {
 			Instructor ints = new Instructor(parser,strings);
-			if (byName.containsKey(ints.name))
-				return byName.get(ints.name);
-			byName.put(ints.name, ints);
+			if (byID.containsKey(ints.ID))
+				return byID.get(ints.ID);
+			byID.put(ints.ID, ints);
 			return ints;
 		}
 		public static Instructor getInstance(SVReader<Instructor> parser, String string) {
@@ -45,7 +45,7 @@ public class Instructor implements Externalizable{
 		}
 		public static Stream<Instructor> getStream(){
 			List<Instructor> list = new LinkedList<>();
-			byName.entrySet().forEach((i)->{list.add(i.getValue());});
+			byID.entrySet().forEach((i)->{list.add(i.getValue());});
 			return list.stream();
 		}
 	}
@@ -81,9 +81,9 @@ public class Instructor implements Externalizable{
 	 * Exists because of externalizable implementation
 	 */
 	public Instructor() {}
-	private Instructor(String name) {
-		this.name = name;
-		this.ID = -1;
+	private Instructor(int id) {
+		this.name = null;
+		this.ID = id;
 		this.online = false;
 		this.courseCount = -1;
 		courses = new HashSet<>();
@@ -181,12 +181,18 @@ public class Instructor implements Externalizable{
 		return avl;
 	}
 	public void addSection(Section src) {
-		Day[] arr = (Day[])src.getDays().toArray();
+		Day[] arr = new Day[src.getDays().size()];
+		for (int i=0;i<arr.length;i++) {
+			arr[i] = src.getDays().get(i);
+		}
 		avl.put(src, src.getBegin(), src.getEnd(), arr);
 		sections.add(src);
 	}
 	public void removeSection(Section src) {
-		Day[] arr = (Day[])src.getDays().toArray();
+		Day[] arr = new Day[src.getDays().size()];
+		for (int i=0;i<arr.length;i++) {
+			arr[i] = src.getDays().get(i);
+		}
 		avl.remove(src, src.getBegin(), src.getEnd(), arr);
 		sections.remove(src);
 	}
@@ -214,6 +220,21 @@ public class Instructor implements Externalizable{
 	}
 	@Override
 	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-		
+		ID = in.readInt();
+		home = (Campus)in.readObject();
+		cell = in.readUTF();
+		name = in.readUTF();
+		homePhone = in.readUTF();
+		address = in.readUTF();
+		hireDate = in.readUTF();
+		courses = (Set<Course>) in.readObject();
+		sections = (Set<Section>) in.readObject();
+		ranking = (Rank) in.readObject();
+		online = in.readBoolean();
+		preferred = (Set<Campus>) in.readObject();
+		weights = (TreeMap<Course, Integer>) in.readObject();
+		courseCount = in.readInt();
+		avl = (Availability<Section>) in.readObject();
+		InstructorFactory.byID.put(ID, this);
 	}
 }

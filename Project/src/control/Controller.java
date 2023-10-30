@@ -87,10 +87,20 @@ public class Controller {
 			try {
 				loader = new FXMLLoader(new File("src/view/AssignmentView.fxml").toURI().toURL());
 				Parent aRoot = loader.load();
+				HBox.setHgrow(aRoot, Priority.ALWAYS);
+				VBox.setVgrow(aRoot, Priority.ALWAYS);
 				anchor.getChildren().add(aRoot);
 				AssignmentController aC = loader.getController();
 				aC.setInstance(aRoot, stage, scene);
-			} catch (IOException e) {}
+			} catch (IOException e) {e.printStackTrace();}
+		} else {
+			try {
+				loader = new FXMLLoader(new File("src/view/SaveView.fxml").toURI().toURL());
+				Parent aRoot = loader.load();
+				anchor.getChildren().add(aRoot);
+				SaveController aC = loader.getController();
+				aC.setInstance(aRoot, stage, scene);
+			} catch (IOException e) {e.printStackTrace();}
 		}
 	}
 }

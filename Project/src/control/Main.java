@@ -41,10 +41,7 @@ public class Main extends Application{
 	//data persistence
 	//Kevin Culkin
 	public void start(Stage stage) throws Exception {
-		SCCCImports.importCourses(new File("src/Q1/CourseInformation.csv"));
-		SCCCImports.importSections(new File("src/Q1/CourseInformation.csv"));
-		SCCCImports.importInstructors(new File("src/Q1/Instructors.csv"));
-		SCCCImports.importWeights(new File("src/Q1/Instructor_Recent_Courses.csv"));
+		SCCCImports.load();
 		FXMLLoader loader = new FXMLLoader(new File("src/view/Main.fxml").toURI().toURL());
 		Parent root = loader.load();
 		Scene scene = new Scene(root,800,600);
@@ -55,17 +52,8 @@ public class Main extends Application{
 		stage.setTitle("Program");
 		stage.show();
 		stage.setOnCloseRequest(e->{
-			save("src/Q1/Courses.dat",Course.CourseFactory.getStream());
-			save("src/Q1/Section.dat",Section.SectionFactory.getStream());
-			save("src/Q1/Instructor.dat",Instructor.InstructorFactory.getStream());
+			SCCCImports.save();
 		});
-	}
-	public static <K> void save(String filename, Stream<K> stream) {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(filename)))){
-			stream.forEach((obj)->{try {
-				oos.writeObject(obj);
-			} catch (IOException e) {}});
-		} catch (IOException e) {}
 	}
 }
 

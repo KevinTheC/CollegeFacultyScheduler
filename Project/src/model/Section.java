@@ -132,5 +132,6 @@ public class Section implements Externalizable{
 		days = (List<Day>)in.readObject();
 		begin = (TimeStamp)in.readObject();
 		end = (TimeStamp)in.readObject();
+		SectionFactory.set.put(crn, this);
 	}
 }

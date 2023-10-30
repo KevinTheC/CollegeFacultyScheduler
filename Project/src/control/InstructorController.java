@@ -83,7 +83,6 @@ public class InstructorController {
 					if (cell.getItem()!=null) {
 						aController.refresh(cell.getItem().getAvailability());
 						instructorInfo(cell.getItem());
-						System.out.println(cell.getItem());
 					}});
 				return cell;
 			}});
