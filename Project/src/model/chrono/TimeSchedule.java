@@ -62,25 +62,30 @@ public class TimeSchedule <K> implements Serializable{
 			return false;
 		K newtype = null;
 		var itr = range.listIterator();
+		Triple<K,Boolean,TimeStamp> tri1 = null;
+		Triple<K,Boolean,TimeStamp> tri2 = null;
 		while (itr.hasNext()) {
-			Triple<K,Boolean,TimeStamp> tri = itr.next();
-			if (Objects.equals(tri.k,type)&&Objects.equals(tri.t,begin)) {
+			tri1 = itr.next();
+			if (Objects.equals(tri1.k,type)&&Objects.equals(tri1.t,begin)) {
 				itr.previous();
 				itr.previous();
 				newtype = current(itr).k;
-				tri.k = newtype;
 				itr.next();
 				itr.next();
 				break;
 			}
 		}
 		while (itr.hasNext()) {
-			Triple<K,Boolean,TimeStamp> tri = itr.next();
-			if (Objects.equals(tri.k,type)&&Objects.equals(tri.t,end)) {
-				tri.k = newtype;
+			tri2 = itr.next();
+			if (Objects.equals(tri2.k,type)&&Objects.equals(tri2.t,end)) {
+				itr.next();
+				if (current(itr).k!=null)
+					newtype = current(itr).k;
 				break;
 			}
 		}
+		tri1.k = newtype;
+		tri2.k = newtype;
 		cleanse();
 		return true;
 	}

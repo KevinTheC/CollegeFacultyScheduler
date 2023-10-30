@@ -201,17 +201,22 @@ public class AssignmentController {
 		} else {
 			currInst.addSection(currSec);
 		}
+		instructorAVLController.refresh(new Availability<>());
+		sectionAVLController.refresh(new Availability<>());
+		listSection.clear();
+		listInstructor.clear();
 		SCCCImports.save();
 		unlock(null);
 	}
 	public void unlock(ActionEvent e) {
 		currInst = null;
 		currSec = null;
-		searchTextField.setText("");
 		addDrop.setText("");
 		text.setText("Search for Instructors");
 		legend.getChildren().clear();
 		mode = Mode.Instructor;
+		refresh(null);
+		searchTextField.setText("");
 	}
 	public void refreshAVL(Instructor in) {
 		legend.getChildren().clear();

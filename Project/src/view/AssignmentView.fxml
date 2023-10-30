@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<HBox id="hbox1" fx:id="hbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="853.0" prefWidth="820.0" styleClass="lightBeigeArea" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.AssignmentController">
+<HBox id="hbox1" fx:id="hbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="820.0" styleClass="lightBeigeArea" stylesheets="@application.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.AssignmentController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" stylesheets="@application.css" HBox.hgrow="ALWAYS">
+      <VBox alignment="TOP_CENTER" prefHeight="500.0" prefWidth="820.0" spacing="10.0" stylesheets="@application.css" HBox.hgrow="SOMETIMES">
          <children>
             <VBox alignment="CENTER" fillWidth="false" prefHeight="0.0" prefWidth="100.0" spacing="5.0" styleClass="containerLayer2" stylesheets="@application.css">
                <children>
@@ -25,6 +25,7 @@
             <HBox fx:id="hboxInstructor" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <ListView id="instResults" fx:id="instructor" prefHeight="100.0" prefWidth="290.0" styleClass="list" stylesheets="@application.css" />
+                  <VBox fx:id="legend" prefHeight="200.0" prefWidth="100.0" />
                </children>
             </HBox>
             <HBox fx:id="hboxSection" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">

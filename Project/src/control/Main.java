@@ -37,8 +37,6 @@ public class Main extends Application{
 	public static void main(String[] args){
 		Application.launch(args);
 	}
-	//export data
-	//data persistence
 	//Kevin Culkin
 	public void start(Stage stage) throws Exception {
 		SCCCImports.load();
@@ -49,7 +47,7 @@ public class Main extends Application{
 		stage.setMaximized(true);
 		Controller c = loader.getController();
 		c.setInstance(root,stage,scene);
-		stage.setTitle("Program");
+		stage.setTitle("Scheduler");
 		stage.show();
 		stage.setOnCloseRequest(e->{
 			SCCCImports.save();
